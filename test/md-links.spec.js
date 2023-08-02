@@ -1,4 +1,4 @@
-const mdLinks = require('../');
+import { mdLinks } from "src/mdLinks"
 
 
 describe('mdLinks', () => {
