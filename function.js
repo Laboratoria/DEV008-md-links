@@ -1,3 +1,4 @@
+//aqui realizo funciones pequeñas
 function validarRuta(router){
 return true;
 }
