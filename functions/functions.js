@@ -1,0 +1,1 @@
+//Contiene las funciones puras
