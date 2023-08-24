@@ -14,7 +14,7 @@
 
 // 7) Identificar links
 
-                    //**COMPLETADO**//
+                     //**COMPLETADO**//  FUNCIONA con rutas relativas(PROBADO)
 
 
 const path = require('path');
@@ -65,7 +65,7 @@ function identifyFile(filePath) {
         console.log(`${filePath} is not a file.`);
       }
     } catch (error) {
-      console.log('Error:', error);
+      //console.log('Error:', error);
     }
   };
 identifyFile(convertedAbsolutePath);
@@ -87,15 +87,12 @@ function readFile(filePath){
 };
 const fileData = readFile(convertedAbsolutePath);
 
-function findLinksInFile(filePath) {
-    try {
-        filePath = fileData;
+// 7)
+function findLinksInFile(filePath) { 
+      const fileData = fs.readFileSync(filePath, 'utf8');
       const linkRegex = /https?:\/\/[^\s]+/g;
-      const links = filePath.match(linkRegex);
+      const links = fileData.match(linkRegex);
       console.log('Links found:', links);
       return links;
-    } catch (error) {
-      console.log('Error:', error);
-    }
   };
-  findLinksInFile(convertedAbsolutePath);
+  const links = findLinksInFile(convertedAbsolutePath);
