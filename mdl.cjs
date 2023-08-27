@@ -1,4 +1,4 @@
-const main=(path)=>{
+/*const main=(path)=>{
 
   if (path){
     return true;
@@ -7,3 +7,4 @@ const main=(path)=>{
 }
 
 module.exports ={main};
+*/
