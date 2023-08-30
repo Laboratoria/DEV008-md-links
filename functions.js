@@ -16,43 +16,49 @@
 
 //**COMPLETADO**//  FUNCIONA (PROBADO)
 
-// 8) Validar links  //solicitud HTTP//
+// 8) Validar links  //solicitud HTTP// ----------> Seguir probando
+
+//---------*****---------Funciones de ejemplo están comentadas------------*****-----------//
 
 
 const path = require('path');
 const fs = require('fs');
 //const http = require('http');
 const https = require('https');
+const { error } = require('console');
 //const fetch = require('node-fetch');
 
 const examplePath = 'example.md'; //Debe ser un string vacío/ Se llena para pruebas aquí // Con filename si lo valida correctamente
 
 //FUNCION QUE RELACIONA TODAS LAS FUNCIONES//
-/*function mdLinksTaster(userPath) {  //AQUI SE JUNTAN TODAS LAS FUNCIONES Y SE RELACIONAN  - hacerlo en mdLinks
+function mdLinksTaster(userPath) {  //AQUI SE JUNTAN TODAS LAS FUNCIONES Y SE RELACIONAN  - hacerlo en mdLinks
   let absolutePath = '';
-    try {
-      fs.accessSync(userPath);
-      console.log('Valid path')
-      if(validateAbsolutePath(userPath) === true) {
-        console.log('Absolute Path is ' + userPath)
-        absolutePath = userPath;
-      }else {
-        absolutePath = convertToAbsolutePath(userPath)
-      };
-      //console.log(absolutePath);
-      if(identifyFile(absolutePath)=== true){
-        identifyFileExtension(absolutePath);
-      };
-      if(identifyFileExtension(absolutePath) === '.md'){
-        findLinksInFile(absolutePath);
-      };
-      return true;
-    } catch (error) {
-      console.log('Invalid path')
-      return false;
-    }
+  try {
+    fs.accessSync(userPath);
+    console.log('Valid path')
+    if (validateAbsolutePath(userPath) === true) {
+      console.log('Absolute Path is ' + userPath)
+      absolutePath = userPath;
+    } else {
+      console.log('Absolute Path is ' + convertToAbsolutePath(userPath))
+      absolutePath = convertToAbsolutePath(userPath)
+    };
+    //console.log(absolutePath);
+    if (identifyFile(absolutePath) === true) {
+      console.log('File ext: ' + identifyFileExtension(absolutePath))
+      identifyFileExtension(absolutePath);
+    };
+    if (identifyFileExtension(absolutePath) === '.md') {
+
+      findLinksInFile(absolutePath);
+    };
+    return true;
+  } catch (error) {
+    console.log('Invalid path')
+    return false;
   }
-  mdLinksTaster(examplePath);  //EJEMPLO//*/
+}
+//mdLinksTaster(examplePath);  //EJEMPLO//**/
 
 
 // 1)
@@ -91,11 +97,9 @@ function validatePath(userPath) {
 // 2)
 function validateAbsolutePath(userPath) {
   const validatedAbsolutePath = path.isAbsolute(userPath);
-  //console.log('Absolute Path is ' + validatedAbsolutePath)
+  console.log('Absolute Path is ' + validatedAbsolutePath)
   return validatedAbsolutePath;
 };
-
-//TRATAR DE FUSIONAR VALIDAR Y CONVERTIR CON IF//
 
 // 3)
 function convertToAbsolutePath(relativePath) {
@@ -104,9 +108,8 @@ function convertToAbsolutePath(relativePath) {
   return absolutePath
 };
 //const convertedAbsolutePath = convertToAbsolutePath(examplePath);
-//console.log(convertedAbsolutePath);
 
-//FUNCION PARA CREAR PATH ABSOLUTO// NO FUNCIONA //
+//---------FUNCION PARA CREAR PATH ABSOLUTO-----------// 
 function createAbsolutePath(userPath) {
   let absolutePath = '';
   if (validatePath(userPath) === true) {
@@ -120,7 +123,7 @@ function createAbsolutePath(userPath) {
   console.log(absolutePath);
   return absolutePath
 }
-const absolutePath = createAbsolutePath(examplePath);
+//const absolutePath = createAbsolutePath(examplePath);
 
 //4
 function identifyFile(filePath) {
@@ -141,16 +144,14 @@ function identifyFile(filePath) {
 //identifyFile(convertedAbsolutePath);
 
 // 5)
-
 function identifyFileExtension(filePath) {
   const fileExt = path.extname(filePath);
-  console.log('File extension: ' + fileExt);
+  //console.log('File extension: ' + fileExt);
   return fileExt;
 };
 //const fileExt = identifyFileExtension(convertedAbsolutePath);
-//console.log(fileExt);
 
-// 6)
+// 6) //Lee archivos//
 function readFile(filePath) {
   const fileData = fs.readFileSync(filePath, 'utf8');
   console.log(fileData);
@@ -158,7 +159,7 @@ function readFile(filePath) {
 };
 //const fileData = readFile(convertedAbsolutePath);
 
-// 7)
+// 7) //Lee y encuentra los links en un archivo//
 function findLinksInFile(filePath) {
   const fileData = fs.readFileSync(filePath, 'utf8');
   const linkRegex = /https?:\/\/[^\s]+/g;
@@ -168,33 +169,49 @@ function findLinksInFile(filePath) {
 };
 //const links = findLinksInFile(absolutePath);
 
-// 8) petición HTTP  // 
+// 8) petición HTTP  // REVISAR
 function validateLink(link) {
   return fetch(link)
-    .then(response => response.status)
-    //.then(response => console.log(response.status));
+    .then(response => {
+      if (response.status <= 200 && response.status < 400) {
+        console.log('ok');
+      } else {
+        console.log('fail');
+      }
+      return response.status;
+    })
+    //.then(response => console.log(response.status))
+    //.catch (error=> console.log('Error:', error)); 
 }
+
+//------------- 
 function validatedLink(filePath) {
-  const links = findLinksInFile (filePath)
+  const links = findLinksInFile(filePath)
   links.forEach(link => {
     validateLink(link)
       .then(statusCode => {
         console.log(`Link: ${link}, Status Code: ${statusCode}`);
+      })
+      .catch((error) => {
+        console.error(error);
       });
   });
 }
-//validatedLink('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/testing_docs/DataLovers.md') //EJEMPLO//
-validatedLink('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/example.md') //EJEMPLO// ---MARCA UN ERROR ---
+
+validatedLink('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/testing_docs/DataLovers.md') //EJEMPLO//
+//validatedLink('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/example.md') //EJEMPLO//
+//console.log(validateLink('https://www.youtube.com/'))// FUNCIONA
+
 //console.log(server.address().port);
 
 
-module.exports = {
-  //validatePath: validatePath,
-  //convertToAbsolutePath: convertToAbsolutePath,
-  //convertToAbsolutePath: convertToAbsolutePath,
-  //identifyFile: identifyFile,
-  //identifyFileExtension: identifyFileExtension,
-  readFile: readFile,
-  findLinksInFile: findLinksInFile,
-  createAbsolutePath: createAbsolutePath
-};
+// module.exports = {
+//   //validatePath: validatePath,
+//   //convertToAbsolutePath: convertToAbsolutePath,
+//   //convertToAbsolutePath: convertToAbsolutePath,
+//   //identifyFile: identifyFile,
+//   //identifyFileExtension: identifyFileExtension,
+//   readFile: readFile,
+//   findLinksInFile: findLinksInFile,
+//   createAbsolutePath: createAbsolutePath
+// };

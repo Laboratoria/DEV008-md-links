@@ -5,7 +5,7 @@ const functions = require('./functions')
 //   // ...
 // };
 
-function mdLinks(path, options){
+/*function mdLinks(path, options){
     const href = functions.findLinksInFile(path).forEach(link  => console.log(link));     //URL encontrada.
     const text = '';                    //Texto que aparecía dentro del link (<a>). //PENDIENTE//
     const file = functions.createAbsolutePath(path);       //Ruta del archivo donde se encontró el link. //NO SALE//
@@ -14,7 +14,7 @@ function mdLinks(path, options){
 
 
 
-};
-console.log(mdLinks('testing_docs/Social Networks/MusiClub.md'))
+};*/
+//console.log(mdLinks('testing_docs/Social Networks/MusiClub.md'))
 //console.log(functions.validatePath('example.md'));
 
