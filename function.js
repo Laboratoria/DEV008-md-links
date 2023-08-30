@@ -1,14 +1,17 @@
 //aqui realizo funciones pequeñas
 const fs =require('fs');
 const path =require('node:path');
+const markdowLinkExtractor = require('markdown-link-extractor');
 
 
-const validarArchivos = function() {
+/* const validarArchivos = function() {
 // verificar si el archivo existe.
 if(fs.existsSync('./pruebas/README2.md')){
   console.log('El archivo EXISTE');
+  return true;
 }else{
   console.log('El archivo NO EXISTE');
+  return false;
 }
 /* fs.stat('./pruebas/README2.md', (err, stats) => {
   if (err) {
@@ -16,7 +19,7 @@ if(fs.existsSync('./pruebas/README2.md')){
   } else {
       console.log("El archivo EXISTE!");
     /*   console.log("Path is file:", stats.isFile());
-    console.log("Path is directory:", stats.isDirectory()); */
+    console.log("Path is directory:", stats.isDirectory()); 
   };
   validarArchivos();
 
@@ -36,12 +39,12 @@ if (path.isAbsolute(ruta)) {
   } else {
     console.log(data);
   }
-}); */
+}); 
  
 } else {
   const rutaAbsoluta = path.resolve(ruta);
     console.log('La ruta es relativa.');
-}
+} */
 
 //validarArchivos();
 const validateFile = function (ruta){
@@ -53,8 +56,13 @@ const isAbsolute = function (ruta){
 const converAbsolute = function (ruta){
   return path.resolve(ruta);
 }
+const isFile = function(ruta){
+return fs.statSync(ruta).isFile()
+}
+
 module.exports = {
   validateFile,
   isAbsolute,
   converAbsolute,
+  isFile,
 };

@@ -39,4 +39,4 @@ const getFilesWithRecursively = (path) => {
 };
 
 // Exportar la función principal para su uso en otros archivos
-module.exports = getFilesWithRecursively;
+module.exports = { getFilesWithRecursively };
