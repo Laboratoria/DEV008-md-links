@@ -38,3 +38,92 @@ const readMd = () => {
 
 const data = readMd();
 console.log(data);  //-----> Aquí no devuelve promesas, quité fs/promises <-----------//FUNCIONA//
+
+  // 8) REVISAR
+
+  const options = {
+    hostname: 'localhost',
+    port: 80,
+    path: '/',
+    method: 'GET'
+  };
+
+  const req = http.request(options, (res) => {
+    console.log(`Status code: ${res.statusCode}`);
+  })
+  req.on('error', (error) => {
+    console.error(error);
+  });
+
+  req.end();
+  ///////////////////////////////////////////////////////////////
+  /*function validateLink(link) {
+    const protocol = link.startsWith('https') ? https : http;
+    return new Promise((resolve, reject) => {
+      protocol.get(link, (res) => {
+        if (res.statusCode >= 200 && res.statusCode < 400) {
+          resolve(true); // Link is valid
+        } else {
+          resolve(false); // Link is invalid
+        }
+      }).on('error', (err) => {
+        reject(err);
+      });
+    });
+  };
+  validateLink(links);
+  */
+
+/*const https = require('https');
+
+const options = {
+  hostname: 'example.com',
+  port: 443,
+  path: '/',
+  method: 'GET'
+};
+
+const req = https.request(options, (res) => {
+  console.log(`Status code: ${res.statusCode}`);
+  
+  res.on('data', (chunk) => {
+    console.log(chunk.toString());
+  });
+});
+
+req.on('error', (error) => {
+  console.error(error);
+});
+
+req.end();*/
+
+///////////////////////////////////////////////////////////////
+
+/*const http = require('http');
+
+function validateLink(link) {
+  return new Promise((resolve, reject) => {
+    const req = http.get(link, (res) => {
+      if (res.statusCode >= 200 && res.statusCode < 400) {
+        resolve(true); // Link is valid
+      } else {
+        resolve(false); // Link is invalid
+      }
+    });
+
+    req.on('error', (err) => {
+      reject(err);
+    });
+  });
+}
+
+// Example usage:
+const link = links;
+
+validateLink(link)
+  .then((isValid) => {
+    console.log(`Link ${link} is ${isValid ? 'valid' : 'invalid'}`);
+  })
+  .catch((error) => {
+    console.error(error);
+  });*/
