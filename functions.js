@@ -23,10 +23,7 @@
 
 const path = require('path');
 const fs = require('fs');
-//const http = require('http');
 const https = require('https');
-const { error } = require('console');
-//const fetch = require('node-fetch');
 
 const examplePath = 'example.md'; //Debe ser un string vacío/ Se llena para pruebas aquí // Con filename si lo valida correctamente
 
@@ -60,28 +57,7 @@ function mdLinksTaster(userPath) {  //AQUI SE JUNTAN TODAS LAS FUNCIONES Y SE RE
 }
 //mdLinksTaster(examplePath);  //EJEMPLO//**/
 
-
 // 1)
-/*function validatePath(userPath) {  //AQUI SE crea el path absoluto funciona igual que la funcion createAbsolutePath
-let absolutePath = '';
-  try {
-    fs.accessSync(userPath);
-    console.log('Valid path')
-    if(validateAbsolutePath(userPath) === true) {
-      console.log('Absolute Path is ' + userPath)
-      absolutePath = userPath;
-    }else {
-      absolutePath = convertToAbsolutePath(userPath)
-    };
-    //console.log(absolutePath);
-    return absolutePath;
-  } catch (error) {
-    console.log('Invalid path')
-    return false;
-  }
-}
-validatePath(examplePath);  //EJEMPLO//*/
-
 function validatePath(userPath) {
   try {
     fs.accessSync(userPath);
@@ -169,7 +145,7 @@ function findLinksInFile(filePath) {
 };
 //const links = findLinksInFile(absolutePath);
 
-// 8) petición HTTP  // REVISAR
+// 8) petición HTTP  // Se puede separar en dos, una función que valide y otra que muestre el mensaje //
 function validateLink(link) {
   return fetch(link)
     .then(response => {
@@ -180,11 +156,10 @@ function validateLink(link) {
       }
       return response.status;
     })
-    //.then(response => console.log(response.status))
-    //.catch (error=> console.log('Error:', error)); 
+  //.then(response => console.log(response.status))
+  //.catch (error=> console.log('Error:', error)); 
 }
 
-//------------- 
 function validatedLink(filePath) {
   const links = findLinksInFile(filePath)
   links.forEach(link => {
@@ -198,20 +173,7 @@ function validatedLink(filePath) {
   });
 }
 
-validatedLink('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/testing_docs/DataLovers.md') //EJEMPLO//
-//validatedLink('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/example.md') //EJEMPLO//
+validatedLink('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/testing_docs/DataLovers.md') //EJEMPLO//FUNCIONA ---> 404
+//validatedLink('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/example.md') //EJEMPLO// FUNCIONA ---> 200
 //console.log(validateLink('https://www.youtube.com/'))// FUNCIONA
 
-//console.log(server.address().port);
-
-
-// module.exports = {
-//   //validatePath: validatePath,
-//   //convertToAbsolutePath: convertToAbsolutePath,
-//   //convertToAbsolutePath: convertToAbsolutePath,
-//   //identifyFile: identifyFile,
-//   //identifyFileExtension: identifyFileExtension,
-//   readFile: readFile,
-//   findLinksInFile: findLinksInFile,
-//   createAbsolutePath: createAbsolutePath
-// };
