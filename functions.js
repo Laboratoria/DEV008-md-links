@@ -28,7 +28,7 @@ const https = require('https');
 const examplePath = 'example.md'; //Debe ser un string vacío/ Se llena para pruebas aquí // Con filename si lo valida correctamente
 
 //FUNCION QUE RELACIONA TODAS LAS FUNCIONES//
-function mdLinksTaster(userPath) {  //AQUI SE JUNTAN TODAS LAS FUNCIONES Y SE RELACIONAN  - hacerlo en mdLinks
+function mdLinksTaster(userPath) {  //AQUI SE JUNTAN TODAS LAS FUNCIONES Y SE RELACIONAN  - hacerlo en mdLinks // FUNCIONA //
   let absolutePath = '';
   try {
     fs.accessSync(userPath);
@@ -46,16 +46,14 @@ function mdLinksTaster(userPath) {  //AQUI SE JUNTAN TODAS LAS FUNCIONES Y SE RE
       identifyFileExtension(absolutePath);
     };
     if (identifyFileExtension(absolutePath) === '.md') {
-
       findLinksInFile(absolutePath);
     };
-    return true;
+    return validatedLink(userPath);
   } catch (error) {
     console.log('Invalid path')
-    return false;
   }
 }
-//mdLinksTaster(examplePath);  //EJEMPLO//**/
+mdLinksTaster(examplePath);  //EJEMPLO//**/
 
 // 1)
 function validatePath(userPath) {
@@ -165,7 +163,7 @@ function validatedLink(filePath) {
   links.forEach(link => {
     validateLink(link)
       .then(statusCode => {
-        console.log(`Link: ${link}, Status Code: ${statusCode}`);
+        console.log(`Link: ${link} Status Code: ${statusCode}`);
       })
       .catch((error) => {
         console.error(error);
@@ -173,7 +171,7 @@ function validatedLink(filePath) {
   });
 }
 
-validatedLink('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/testing_docs/DataLovers.md') //EJEMPLO//FUNCIONA ---> 404
+//validatedLink('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/testing_docs/DataLovers.md') //EJEMPLO//FUNCIONA ---> 404
 //validatedLink('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/example.md') //EJEMPLO// FUNCIONA ---> 200
 //console.log(validateLink('https://www.youtube.com/'))// FUNCIONA
 
