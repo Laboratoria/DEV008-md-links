@@ -1,7 +1,7 @@
 //aqui realizo funciones pequeñas
 const fs =require('fs');
 const path =require('node:path');
-const markdowLinkExtractor = require('markdown-link-extractor');
+const markdownLinkExtractor = require('markdown-link-extractor');
 
 
 /* const validarArchivos = function() {
@@ -59,10 +59,27 @@ const converAbsolute = function (ruta){
 const isFile = function(ruta){
 return fs.statSync(ruta).isFile()
 }
+const read = function(ruta){
+  return fs.readFileSync(ruta, 'utf-8', (err, data) => {
+    if(err) {
+      console.log('error: ', err);
+    } else {
+      console.log(data);
+    }
+  });
+}
+const getLink = function(ruta){
+  const readIng = read(ruta);
+  console.log(readIng);
+  const { links } = markdownLinkExtractor(readIng, true);
+  console.log(links, 'links');
+}
 
 module.exports = {
   validateFile,
   isAbsolute,
   converAbsolute,
   isFile,
+  read,
+  getLink
 };
