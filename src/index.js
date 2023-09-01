@@ -9,14 +9,14 @@ console.log('<<Searching...>>');
 //En caso de carpeta: Obtener el contenido de la carpeta
 //En caso de archivo: leer archivo
 //si se cumplen todos las instancias entonces devuelve un arreglo con objetos
-//
+
 
 const mdLinks = (path, options) => {
   return new Promise((resolve, reject) => {
     if(config.pathExist(path)) {
       const isAbsolutePath = config.absolutePathConverter(path);
       const isFilePath = config.identifyFile(isAbsolutePath);
-      resolve(isFilePath);
+      resolve(isAbsolutePath);
     } else {
       reject('The path does not exist')
     }
@@ -36,7 +36,8 @@ const mdLinks = (path, options) => {
   });
 }
 
-console.log(mdLinks('C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample'))
+
+mdLinks('C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample')
 .then((result) => {
   console.log('El procedimiento esta correcto');
   console.log(result)
@@ -48,3 +49,5 @@ console.log(mdLinks('C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample'))
 module.exports = {
     mdLinks
 }
+
+x = 5

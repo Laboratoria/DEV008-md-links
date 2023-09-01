@@ -6,7 +6,7 @@ const pathExist = (filepath) => {
 }
 
 const absolutePathConverter = (filepath) => {
-    if(path.isAbsolute(filepath)){
+    if(path.isAbsolute(filepath)) {
         return filepath
     } else {
         return path.resolve(filepath)
@@ -15,16 +15,18 @@ const absolutePathConverter = (filepath) => {
 
 const identifyFile = (filepath) => {
     const file = [];
-    let dataFile = fs.statSync(filepath);
+    const dataFile = fs.statSync(filepath);
     if(dataFile.isFile()) {
         file.push(filepath);
         return file;
     } else {
-        scanDirectories(filepath);// Por modificar
+        return scanDirectories(filepath);
     }
 }
 
-
+// const filterFile = (fileArray) => {
+//     fileArray.filter();
+// }
 
 const scanDirectories = (directoryPath) => {
     const files = [];
@@ -37,7 +39,7 @@ const scanDirectories = (directoryPath) => {
                 readAllFolders.forEach(basePath => {
                     //console.log('este es el folder:',basePath);
                     const absolutePath = path.resolve(dirPath, basePath); // Aquí se guarda la ruta absoluta de la carpeta o archivo
-                    let dataFile = fs.statSync(absolutePath);
+                    const dataFile = fs.statSync(absolutePath);
                     if(dataFile.isDirectory()) {
                         getFiles(absolutePath)
                     } else {
@@ -50,7 +52,6 @@ const scanDirectories = (directoryPath) => {
         }
     }
     getFiles(directoryPath)
-    console.log(files);
     return files
 }
 
@@ -67,13 +68,12 @@ const scanDirectories = (directoryPath) => {
 
 
 const readFolder = (directoryPath) => {
-    let readAllFolder = fs.readdirSync(directoryPath);
-    let pathAbsolute = absolutePathConverter(directoryPath);
+    //let pathAbsolute = absolutePathConverter(directoryPath);
     let typeFile = identifyFile(directoryPath);
-    let stats = fs.statSync(directoryPath);
+    //let stats = fs.statSync(directoryPath);
  console.log(typeFile);
  //console.log(readAllFolder);
- console.log(pathAbsolute)
+ //console.log(pathAbsolute)
 // console.log(stats.isDirectory());
 // if(readAllFolder === []) {
 //     console.log('This folder is empty')
@@ -81,7 +81,7 @@ const readFolder = (directoryPath) => {
 }
 
 readFolder('src/sample/folderA');
-//readFolder('src/sample/folderA/folderA.1/secondfile.md');
+readFolder('src/sample/folderA/folderA.1/secondfile.md');
 
 module.exports = {
     pathExist,

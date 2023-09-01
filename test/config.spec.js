@@ -1,6 +1,13 @@
 const config = require("../src/config");
 
-describe("Config", () => {
+describe("configuration of auxiliary functions", () => {
+
+  it("The path must exist ", () => {
+    const response = config.pathExist('src/sample/folderA/folderA.1/secondfile.md')
+    expect(response).toBe(true);
+    
+  });
+
   it("should return a absolute path", () => {
     const expectedResponse = 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample';
     const pathExample = 'src/sample';
@@ -8,6 +15,7 @@ describe("Config", () => {
     expect(response).toBe(expectedResponse);
     
   });
+
   it("should return array files", () => {
     const expectedResponse = [
         'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\folderA.1.1\\firstfile.md',
@@ -17,5 +25,5 @@ describe("Config", () => {
     const response = config.scanDirectories(pathExample)
     expect(response).toStrictEqual(expectedResponse);
     
-  });
+  }); 
 });

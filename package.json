@@ -7,7 +7,7 @@
   },
   "scripts": {
     "test": "jest --coverage",
-    "start": "node ./src/md-links.js"
+    "start": "node ./src/index.js"
   },
   "bootcamp": {
     "createdAt": "2023-06-28T16:05:09.952Z",
