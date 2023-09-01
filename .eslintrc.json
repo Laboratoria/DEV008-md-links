@@ -1,0 +1,18 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true
+    },
+    "extends": [
+        "airbnb-base",
+        "eslint:recommended"
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "ignorePatterns": ["config.spec.js", "md-links.spec.js"],
+    "rules": {
+        "max-len": ["error", {"code": 200}]
+    }
+}
