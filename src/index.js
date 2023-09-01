@@ -13,11 +13,12 @@ console.log('<<Searching...>>');
 
 const mdLinks = (path, options) => {
   return new Promise((resolve, reject) => {
-    if(config.fileExist(path)) {
-      const finallyPath = config.absolutePathConverter(path);
-      resolve(finallyPath)
+    if(config.pathExist(path)) {
+      const isAbsolutePath = config.absolutePathConverter(path);
+      const isFilePath = config.identifyFile(isAbsolutePath);
+      resolve(isFilePath);
     } else {
-      reject('La ruta no existe')
+      reject('The path does not exist')
     }
     //resolve('Correcto');
     //reject('Incorrecto');
@@ -35,31 +36,15 @@ const mdLinks = (path, options) => {
   });
 }
 
-mdLinks('C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample')
+console.log(mdLinks('C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample'))
 .then((result) => {
   console.log('El procedimiento esta correcto');
   console.log(result)
 })
 .catch((error) => {
-  console.log('El procedimiento falló');
   console.log(error);
 });
-//console.log('Aqui termina la promesa')
 
-// const mdLinks = (filepath) => {
-//     //const isAbsolutePath = config.absolutePath(filepath);
-//     const isFileExist = config.fileExist(filepath)
-//     if(isFileExist){
-//         console.log('esta ruta existe');
-//         console.log(isFileExist);
-
-//     } else {
-//         console.log('esta ruta no existe')
-//     }
-
-// }
-// mdLinks('src/sample/folderC/folderC.2');
-
-// module.exports = {
-//     mdLinks
-// }
+module.exports = {
+    mdLinks
+}
