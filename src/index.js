@@ -1,12 +1,6 @@
 const config = require('./config');
 
 console.log('<<Searching...>>');
-// Saber si mi ruta existe
-// Convertir mi ruta a absoluta
-// Ver si es un directorio o archivo
-// En caso de carpeta: Obtener el contenido de la carpeta
-// En caso de archivo: leer archivo
-// si se cumplen todos las instancias entonces devuelve un arreglo con objetos
 
 const mdLinks = (path, options) => new Promise((resolve, reject) => {
   if (config.pathExist(path)) {

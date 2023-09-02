@@ -11,18 +11,24 @@ const absolutePathConverter = (filepath) => {
 };
 
 const identifyFile = (filepath) => {
-  const file = [];
   const dataFile = fs.statSync(filepath);
   if (dataFile.isFile()) {
-    file.push(filepath);
+    const file = Array.of(filepath);
     return file;
   }
   return scanDirectories(filepath);
 };
 
-const filterFile = (fileArray) => {
-  const regExp = /\.[m][d]/.g;
-  return fileArray.filter(() => {});
+const fileValidation = (fileArray) => {
+  try {
+    const filterfile = fileArray.filter((file) => path.extname(file) === '.md');
+    if (filterfile.length === 0) {
+      throw new Error('it is not a markdown file');
+    }
+    // Problema: no me devuelve nada al ejecutarlo, ni undefined
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const scanDirectories = (directoryPath) => {
@@ -31,7 +37,7 @@ const scanDirectories = (directoryPath) => {
     try {
       const readAllFolders = fs.readdirSync(dirPath);
       if (readAllFolders.length === 0) {
-        console.log('This folder is empty');
+        console.log('this folder is empty');
       } else {
         readAllFolders.forEach((basePath) => {
           // console.log('este es el folder:',basePath);
@@ -53,34 +59,34 @@ const scanDirectories = (directoryPath) => {
 };
 
 // const readFile = fs.readFile(filePath, 'utf-8', (err, data) => {
-//     if(err) {
-//         console.log('error: ', err);
-//     } else {
-//       // data  is the contents of the file
-//         console.log(data);
-//     }
+//   if (err) {
+//     console.log('error: ', err);
+//   } else {
+//     // data  is the contents of the file
+//     console.log(data);
+//   }
 // });
 
 const readFolder = (directoryPath) => {
-  // let pathAbsolute = absolutePathConverter(directoryPath);
-  const typeFile = identifyFile(directoryPath);
+  fileValidation(directoryPath);
   // let stats = fs.statSync(directoryPath);
-  console.log(typeFile);
+  // console.log(typeFile);
   // console.log(readAllFolder);
-  // console.log(pathAbsolute)
 // console.log(stats.isDirectory());
 // if(readAllFolder === []) {
 //     console.log('This folder is empty')
 // }
 };
 
-readFolder('src/sample/folderA');
-readFolder('src/sample/folderA/folderA.1/secondfile.md');
+// readFolder('src/sample/folderA');
+// readFolder('src/sample/folderA/folderA.1/secondfile.md');
+// readFolder('src/sample/draft.txt');
+readFolder(['src/sample/draft.md']);
 
 module.exports = {
   pathExist,
   absolutePathConverter,
   identifyFile,
-  filterFile,
+  fileValidation,
   scanDirectories,
 };
