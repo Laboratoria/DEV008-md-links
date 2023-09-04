@@ -54,6 +54,7 @@ const identifyFile = (filepath) => {
   const dataFile = fs.statSync(filepath);
   if (dataFile.isFile()) {
     const file = Array.of(filepath);
+    console.log(file);
     return file;
   }
   return scanDirectories(filepath);
@@ -70,9 +71,9 @@ const readFile = (filepath) => {
   });
 };
 
-const extractLinks = 
+// const extractLinks = 
 // identificar los links
-// guardar los links en un arreglo como objetos
+// guardar los links en un arreglo con objetos
 
 const readFolder = (directoryPath) => {
   //fileValidation(directoryPath);
@@ -85,7 +86,7 @@ const readFolder = (directoryPath) => {
 
 //readFolder('src/sample/folderA');
 // readFolder('src/sample/folderA/folderA.1/secondfile.md');
- readFolder('src/sample/draft.txt');
+ // readFolder('src/sample/draft.txt');
 //readFolder(['src/sample/draft.md']);
 
 module.exports = {
