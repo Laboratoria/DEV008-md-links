@@ -4,47 +4,6 @@ const path =require('node:path');
 const markdownLinkExtractor = require('markdown-link-extractor');
 
 
-/* const validarArchivos = function() {
-// verificar si el archivo existe.
-if(fs.existsSync('./pruebas/README2.md')){
-  console.log('El archivo EXISTE');
-  return true;
-}else{
-  console.log('El archivo NO EXISTE');
-  return false;
-}
-/* fs.stat('./pruebas/README2.md', (err, stats) => {
-  if (err) {
-      console.log("El archivo NO EXISTE!");
-  } else {
-      console.log("El archivo EXISTE!");
-    /*   console.log("Path is file:", stats.isFile());
-    console.log("Path is directory:", stats.isDirectory()); 
-  };
-  validarArchivos();
-
-//validar si es absoluta o relativa
-const ruta = 'README2.md';
-console.log('Ruta:', ruta);
-
-if (path.isAbsolute(ruta)) {
- console.log('La ruta es absoluta.');
- //verificar si es archivo o carpeta
-/*  */
- 
- //leo el contenido del archivo
-/* fs.readFile('README2.md', 'utf-8', (err, data) => {
-  if(err) {
-    console.log('error: ', err);
-  } else {
-    console.log(data);
-  }
-}); 
- 
-} else {
-  const rutaAbsoluta = path.resolve(ruta);
-    console.log('La ruta es relativa.');
-} */
 
 //validarArchivos();
 const validateFile = function (ruta){
@@ -70,10 +29,28 @@ const read = function(ruta){
 }
 const getLink = function(ruta){
   const readIng = read(ruta);
-  console.log(readIng);
-  const { links } = markdownLinkExtractor(readIng, true);
-  console.log(links, 'links');
+  //console.log(readIng);
+  const  objectLinks  = markdownLinkExtractor(readIng, true);
+  const arrayLinks = objectLinks.links;
+  const transformedLinks = arrayLinks.map((link) => (
+    {
+      href: link.href,
+      text: link.text, 
+      
+    }
+  ));
+  console.log(transformedLinks, 'links');
 }
+getLink('./pruebas/folder2/README4.md');
+
+const isValidate = function(link){
+  fetch(link).then((res)=>{
+    
+  })
+    
+  
+}
+isValidate('https://google.com');
 
 module.exports = {
   validateFile,
@@ -81,5 +58,6 @@ module.exports = {
   converAbsolute,
   isFile,
   read,
-  getLink
+  getLink,
+  isValidate,
 };

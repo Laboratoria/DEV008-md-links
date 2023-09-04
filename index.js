@@ -1,16 +1,20 @@
 //aqui registro funciones de md-link llamo las funciones
 /* const axios =require('axios');
 const  markdowLinkExtractor= require('node_modules/markdown-link-extractor');
-const fetch =require('node:fetch'); */
+*/
 const Path =require('node:path');
+const fetch = require('node-fetch');
+
 const {
   validateFile,
   isAbsolute,
   converAbsolute,
   isFile,
   getLink,
+  isValidate,
 } = require("./function.js");
 const { getFilesWithRecursively } = require("./api.js");
+
 //aqui llamo mis funciones de function en orden y traigo su logica
 const main = function () {
   const ruta = "./pruebas";
@@ -50,5 +54,7 @@ const main = function () {
   } else {
     console.log("no existe la ruta");
   }
+  const validate = isValidate(rutaCalculada);
+  console.log(validate, 'validacion');
 };
 main();
