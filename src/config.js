@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 const pathExist = (filepath) => fs.existsSync(filepath); // Saber si un archivo ya existe en la ruta dada
 
@@ -10,21 +10,13 @@ const absolutePathConverter = (filepath) => {
   return path.resolve(filepath);
 };
 
-const identifyFile = (filepath) => {
-  const dataFile = fs.statSync(filepath);
-  if (dataFile.isFile()) {
-    const file = Array.of(filepath);
-    return file;
-  }
-  return scanDirectories(filepath);
-};
-
 const fileValidation = (fileArray) => {
   try {
-    const filterfile = fileArray.filter((file) => path.extname(file) === '.md');
+    const filterfile = fileArray.filter((file) => path.extname(file) === ".md");
     if (filterfile.length === 0) {
-      throw new Error('it is not a markdown file');
+      throw new Error("it is not a markdown file");
     }
+    console.log(filterfile);
     // Problema: no me devuelve nada al ejecutarlo, ni undefined
   } catch (error) {
     console.log(error);
@@ -37,7 +29,7 @@ const scanDirectories = (directoryPath) => {
     try {
       const readAllFolders = fs.readdirSync(dirPath);
       if (readAllFolders.length === 0) {
-        console.log('this folder is empty');
+        console.log("this folder is empty");
       } else {
         readAllFolders.forEach((basePath) => {
           // console.log('este es el folder:',basePath);
@@ -51,37 +43,50 @@ const scanDirectories = (directoryPath) => {
         });
       }
     } catch (err) {
-      console.log('--->', err);
+      console.log("--->", err);
     }
   };
   getFiles(directoryPath);
   return files;
 };
 
-// const readFile = fs.readFile(filePath, 'utf-8', (err, data) => {
-//   if (err) {
-//     console.log('error: ', err);
-//   } else {
-//     // data  is the contents of the file
-//     console.log(data);
-//   }
-// });
-
-const readFolder = (directoryPath) => {
-  fileValidation(directoryPath);
-  // let stats = fs.statSync(directoryPath);
-  // console.log(typeFile);
-  // console.log(readAllFolder);
-// console.log(stats.isDirectory());
-// if(readAllFolder === []) {
-//     console.log('This folder is empty')
-// }
+const identifyFile = (filepath) => {
+  const dataFile = fs.statSync(filepath);
+  if (dataFile.isFile()) {
+    const file = Array.of(filepath);
+    return file;
+  }
+  return scanDirectories(filepath);
 };
 
-// readFolder('src/sample/folderA');
+const readFile = (filepath) => {
+  fs.readFile(filepath, 'utf8', (err, data) => {
+    if (err) {
+      console.log('error: ', err);
+    } else {
+      // data  is the contents of the file
+      console.log(data);
+    }
+  });
+};
+
+const extractLinks = 
+// identificar los links
+// guardar los links en un arreglo como objetos
+
+const readFolder = (directoryPath) => {
+  //fileValidation(directoryPath);
+    readFile(directoryPath);
+  // scanDirectories(directoryPath);
+  // let stats = fs.statSync(directoryPath);
+  // console.log(typeFile);
+  // }
+};
+
+//readFolder('src/sample/folderA');
 // readFolder('src/sample/folderA/folderA.1/secondfile.md');
-// readFolder('src/sample/draft.txt');
-readFolder(['src/sample/draft.md']);
+ readFolder('src/sample/draft.txt');
+//readFolder(['src/sample/draft.md']);
 
 module.exports = {
   pathExist,
@@ -89,4 +94,5 @@ module.exports = {
   identifyFile,
   fileValidation,
   scanDirectories,
+  readFile,
 };
