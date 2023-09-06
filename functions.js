@@ -16,7 +16,13 @@
 
 //**COMPLETADO**//  FUNCIONA (PROBADO)
 
-// 8) Validar links  //solicitud HTTP// ----------> Seguir probando
+// 8) Validar links  //solicitud HTTP// 
+
+//Hacer función que me devuelva un objeto por cada validación de cada link-----> valor de retorno//
+
+
+
+//Crear objeto de option con propiedad validate//
 
 //---------*****---------Funciones de ejemplo están comentadas------------*****-----------//
 
@@ -28,38 +34,54 @@ const https = require('https');
 const examplePath = 'example.md'; //Debe ser un string vacío/ Se llena para pruebas aquí // Con filename si lo valida correctamente
 
 //FUNCION QUE RELACIONA TODAS LAS FUNCIONES//
-function mdLinksTaster(userPath) {  //AQUI SE JUNTAN TODAS LAS FUNCIONES Y SE RELACIONAN  - hacerlo en mdLinks // FUNCIONA //
+
+//Options ---> validate (objeto)
+const options = {
+  validate: true
+};
+function mdLinksTaster(userPath, options) {  //AQUI SE JUNTAN TODAS LAS FUNCIONES Y SE RELACIONAN  - hacerlo en mdLinks // FUNCIONA //
   let absolutePath = '';
-  try {
-    fs.accessSync(userPath);
-    console.log('Valid path')
-    if (validateAbsolutePath(userPath) === true) {
-      console.log('Absolute Path is ' + userPath)
-      absolutePath = userPath;
-    } else {
-      console.log('Absolute Path is ' + convertToAbsolutePath(userPath))
-      absolutePath = convertToAbsolutePath(userPath)
-    };
-    //console.log(absolutePath);
-    if (identifyFile(absolutePath) === true) {
-      console.log('File ext: ' + identifyFileExtension(absolutePath))
-      identifyFileExtension(absolutePath);
-    };
-    if (identifyFileExtension(absolutePath) === '.md') {
-      findLinksInFile(absolutePath);
-    };
-    return validatedLink(userPath);
-  } catch (error) {
-    console.log('Invalid path')
+
+  if (!validatePath(userPath)) {
+    return false;
   }
-}
-mdLinksTaster(examplePath);  //EJEMPLO//**/
+  if (validateAbsolutePath(userPath)) {
+    console.log('Absolute Path is ' + userPath)
+    absolutePath = userPath;
+  } else {
+    console.log('Absolute Path is ' + convertToAbsolutePath(userPath))
+    absolutePath = convertToAbsolutePath(userPath)
+  };
+  //console.log(absolutePath);
+  if (!identifyFile(absolutePath)) {
+    return false
+  };
+  if (identifyFileExtension(absolutePath) === '.md') {
+    findLinksInFile(absolutePath);
+  } else {
+    return false
+  };
+  return validatedLink(userPath);
+};
+//mdLinksTaster('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/testing_docs/DataLovers.md');  //EJEMPLO//**/
+
+/*--------------------------- PRUEBAS PARA OBJETO CON VALOR DE RETORNO  --------------------------------*/
+
+function createReturnValuesObject() {
+  const returnValues = {
+    href: link,
+    text: linkText,
+    file: filePath,
+    status: statusCode,
+    ok: statusMessage
+  };
+};
 
 // 1)
 function validatePath(userPath) {
   try {
     fs.accessSync(userPath);
-    //console.log('Valid path')
+    console.log('Valid path')
     return true;
   } catch (error) {
     console.log('Invalid path')
@@ -135,22 +157,26 @@ function readFile(filePath) {
 
 // 7) //Lee y encuentra los links en un archivo//
 function findLinksInFile(filePath) {
-  const fileData = fs.readFileSync(filePath, 'utf8');
+  const fileData = fs.readFileSync(filePath, 'utf8');//Se puede sustituir por readFile
   const linkRegex = /https?:\/\/[^\s]+/g;
-  const links = fileData.match(linkRegex);
+  const links = fileData.match(linkRegex); 
   console.log('Links:', links);
-  return links;
+  return links; //Devuelve un array con los links //
 };
-//const links = findLinksInFile(absolutePath);
+//const links = findLinksInFile('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/example.md');
+//const link = links.forEach((link)=> console.log(link)); //--------------->PRUEBAS PARA TEXTO EN LOS LINKS
+/*--------------------------- PROBADO--------------------------------*/
+
+/*--------------------------- PRUEBAS PARA STATUS y OK (Mensaje) --------------------------------*/
 
 // 8) petición HTTP  // Se puede separar en dos, una función que valide y otra que muestre el mensaje //
 function validateLink(link) {
   return fetch(link)
     .then(response => {
       if (response.status <= 200 && response.status < 400) {
-        console.log('ok');
+        console.log(response.statusText);
       } else {
-        console.log('fail');
+        console.log("FAIL");
       }
       return response.status;
     })
@@ -158,20 +184,81 @@ function validateLink(link) {
   //.catch (error=> console.log('Error:', error)); 
 }
 
-function validatedLink(filePath) {
+function getLinkText(link) {
+  return fetch(link)
+    .then(response => {
+      console.log(response.text())
+    })
+}
+getLinkText('https://www.youtube.com/')
+
+/*function validateLink(link) {
+  return fetch(link)
+      .then(response => response.status)
+  };
+
+function validateLinkMessage(statusCode){
+  let message = '';
+  if (statusCode <= 200 && statusCode < 400) {
+    console.log('ok')
+    message = 'ok'
+  } else {
+    console.log('fail');
+    message ='fail'
+  }
+  return message;
+};*/
+
+
+/*function validatedLink(filePath) {
   const links = findLinksInFile(filePath)
+  const statusValidation = validateLinkMessage(statusCode);
   links.forEach(link => {
     validateLink(link)
       .then(statusCode => {
-        console.log(`Link: ${link} Status Code: ${statusCode}`);
+        console.log(`Link: ${link} Status Code: ${statusCode} Status Message:${statusValidation} `);
       })
       .catch((error) => {
         console.error(error);
       });
   });
-}
+};*/
 
+function validatedLink(filePath) {
+  const links = findLinksInFile(filePath)
+  links.forEach(link => {
+    validateLink(link)
+      .then(statusCode => {
+        console.log(`Link: ${link} Status Code: ${statusCode} `);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  });
+};
 //validatedLink('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/testing_docs/DataLovers.md') //EJEMPLO//FUNCIONA ---> 404
 //validatedLink('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/example.md') //EJEMPLO// FUNCIONA ---> 200
 //console.log(validateLink('https://www.youtube.com/'))// FUNCIONA
 
+/*--------------------------- PRUEBAS PARA ETIQUETAS <a> --------------------------------*/
+
+//función para identificar etiquetas <a>*******
+
+/*function identifyLabels(filePath) { //NO FUNCIONA
+  const data = readFile(filePath)
+  const labels = data.getElementsByTagName('a');
+  //console.log(data);
+  console.log(labels);
+  return labels
+}*/
+//identifyLabels('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/example.md')
+
+//************** Función para obtener texto de las labels//********** 
+/*function getTextInLabel(labelElement) {
+  //const labelText = getTextInLabel(label);
+  return labelElement.textContent;
+}*/
+
+//************* Función para obtener href de las labels//**********
+
+/***********************Función para crear el objeto que va a devolver la función mdLinks//********/
