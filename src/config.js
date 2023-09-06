@@ -1,7 +1,8 @@
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
 
-const pathExist = (filepath) => fs.existsSync(filepath); // Saber si un archivo ya existe en la ruta dada
+//--------Saber si un archivo ya existe en la ruta dada----------//
+const pathExist = (filepath) => fs.existsSync(filepath);
 
 const absolutePathConverter = (filepath) => {
   if (path.isAbsolute(filepath)) {
@@ -9,27 +10,25 @@ const absolutePathConverter = (filepath) => {
   }
   return path.resolve(filepath);
 };
-
+//-----------------Validar si es un archivo .md-------------------//
+// const fileValidation2 = (fileArray) =>
+//   fileArray.filter((file) => path.extname(file) === '.md');
 const fileValidation = (fileArray) => {
-  try {
-    const filterfile = fileArray.filter((file) => path.extname(file) === ".md");
-    if (filterfile.length === 0) {
-      throw new Error("it is not a markdown file");
-    }
-    console.log(filterfile);
-    // Problema: no me devuelve nada al ejecutarlo, ni undefined
-  } catch (error) {
-    console.log(error);
+  const filterfile = fileArray.filter((file) => path.extname(file) === '.md');
+  if (filterfile.length === 0) {
+    throw new Error('it is not a markdown file');
   }
+  return filterfile;
 };
 
+//----------------------Buscar entre carpetas--------------------//
 const scanDirectories = (directoryPath) => {
   const files = [];
   const getFiles = (dirPath) => {
     try {
       const readAllFolders = fs.readdirSync(dirPath);
       if (readAllFolders.length === 0) {
-        console.log("this folder is empty");
+        console.log('this folder is empty');
       } else {
         readAllFolders.forEach((basePath) => {
           // console.log('este es el folder:',basePath);
@@ -43,51 +42,69 @@ const scanDirectories = (directoryPath) => {
         });
       }
     } catch (err) {
-      console.log("--->", err);
+      console.log('--->', err);
     }
   };
   getFiles(directoryPath);
   return files;
 };
 
+//-------------Identificar si es un archivo o carpeta------------//
 const identifyFile = (filepath) => {
   const dataFile = fs.statSync(filepath);
   if (dataFile.isFile()) {
     const file = Array.of(filepath);
-    console.log(file);
     return file;
   }
   return scanDirectories(filepath);
 };
 
-const readFile = (filepath) => {
+const readFile = (filepath, callback) => {
   fs.readFile(filepath, 'utf8', (err, data) => {
     if (err) {
       console.log('error: ', err);
     } else {
-      // data  is the contents of the file
-      console.log(data);
+      callback(data); // data is the contents of the file
     }
   });
 };
 
-// const extractLinks = 
-// identificar los links
-// guardar los links en un arreglo con objetos
+const extractLinks = (fileArray) =>
+  new Promise((resolve, reject) => {
+    // const link = /!?\[([^\]]*)?\]\(((https?:\/\/)?[A-Za-z0-9\:\/\.\_]+)(\'(.+)\')?\)/gm;
+    const link = /\[([^\]]+)\]\((http[s]?:\/\/[^)]+)\)/g;
+    const tag = /^\[([\w\s\d]+)\]/;
+    const url = /\(((?:\/|https?:\/\/)?[\w\d./?=#]+)\)$/;
+    fileArray.forEach((file) => {
+      readFile(file, (data) => {
+        const links = data.match(link);
 
-const readFolder = (directoryPath) => {
-  //fileValidation(directoryPath);
-    readFile(directoryPath);
-  // scanDirectories(directoryPath);
-  // let stats = fs.statSync(directoryPath);
-  // console.log(typeFile);
-  // }
-};
+        if (links === null) {
+          reject(new Error('no link found'));
+          return;
+        }
 
-//readFolder('src/sample/folderA');
-// readFolder('src/sample/folderA/folderA.1/secondfile.md');
- // readFolder('src/sample/draft.txt');
-//readFolder(['src/sample/draft.md']);
+        const arrayProperties = links.map((prop) => {
+          const text = prop.match(tag);
+          const href = prop.match(url);
+          return {
+            href: href[1],
+            text: text[1],
+            file,
+          };
+        });
+        resolve(arrayProperties);
+      });
+    });
+  });
+
+extractLinks(['src/sample/draft.md'])
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 module.exports = {
   pathExist,
@@ -96,4 +113,5 @@ module.exports = {
   fileValidation,
   scanDirectories,
   readFile,
+  extractLinks,
 };

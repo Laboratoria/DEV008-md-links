@@ -5,32 +5,26 @@ console.log('<<Searching...>>');
 const mdLinks = (path, options) => new Promise((resolve, reject) => {
   if (config.pathExist(path)) {
     const isAbsolutePath = config.absolutePathConverter(path);
-    const isFilePath = config.identifyFile(isAbsolutePath);
-    resolve(isFilePath);
+    const filePathToRead = config.identifyFile(isAbsolutePath);
+    const fileExtension = config.fileValidation(filePathToRead);
+    config.extractLinks(fileExtension)
+      .then((arrayProperties) => resolve(arrayProperties))
+      .catch((err) => reject(err));
   } else {
-    reject('The path does not exist');
+    reject(new Error('The path does not exist'));
   }
-  // resolve('Correcto');
-  // reject('Incorrecto');
-  // allConditions.push('todas las funciones');
-  // Promise.all(allConditions).resolve()
-  // .then((result) => {
-  //   Array().map((path) => {
-  //     path = {
-  //       href,
-  //       text,
-  //       file,
-  //     }
-  //   })
-  // })
 });
 
-mdLinks('C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample')
+// mdLinks('src/sample/draft.txt')
+// mdLinks('src/sample/draft.md')
+ mdLinks('src/sample/folderA')
+//mdLinks('src/sample/empty.md')
   .then((result) => {
     console.log('El procedimiento esta correcto');
     console.log(result);
   })
   .catch((error) => {
+    console.log('Fallo el procedimiento');
     console.log(error);
   });
 
