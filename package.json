@@ -16,5 +16,8 @@
     "chalk": "^5.3.0",
     "danitap-md-links": "^0.1.0",
     "markdown-link-extractor": "^2.0.1"
+  },
+  "devDependencies": {
+    "standard": "^17.1.0"
   }
 }

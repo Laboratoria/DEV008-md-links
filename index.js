@@ -2,8 +2,8 @@
 /* const axios =require('axios');
 const  markdowLinkExtractor= require('node_modules/markdown-link-extractor');
 */
-const Path =require('node:path');
-const fetch = require('node-fetch');
+const Path = require('node:path');
+/* const fetch = require('node-fetch'); */
 
 const {
   validateFile,
@@ -11,23 +11,22 @@ const {
   converAbsolute,
   isFile,
   getLink,
-  isValidate,
 } = require("./function.js");
 const { getFilesWithRecursively } = require("./api.js");
 
 //aqui llamo mis funciones de function en orden y traigo su logica
-const main = function () {
-  const ruta = "./pruebas";
-  const exist = validateFile(ruta);
+const mdLinks  = (path, options) => new Promise((resolve, reject) => {
+  const exist = validateFile(path);
+  let links = [];
   let rutaCalculada = "";
   if (exist) {
-    const absolute = isAbsolute(ruta);
+    const absolute = isAbsolute(path);
     if (absolute) {
       console.log("es absoluta");
-      rutaCalculada = ruta;
+      rutaCalculada = path;
     } else {
       console.log("no es absoluta");
-      const conver = converAbsolute(ruta);
+      const conver = converAbsolute(path);
       rutaCalculada = conver;
       console.log(conver);
     }
@@ -36,25 +35,32 @@ const main = function () {
       const extension = Path.extname(rutaCalculada);
       if (extension === '.md') {
         console.log("es un archivo");
-        getLink(rutaCalculada);
+        links = [...links, ...getLink(rutaCalculada)];
+        resolve(links);
       }else {
         console.error('No es un archivo md')
       }
     } else {
       const readFile = getFilesWithRecursively(rutaCalculada);
       console.log(readFile, 'readfile');
-      // todas las rutas de los archvos en un array
+      // todas las rutas de los archivos en un array
       // iterar cada una de las rutas y obtener sus links
       readFile.forEach((pathFile)=>{
         console.log(pathFile, 'rutica');
-        getLink(pathFile);
+        links = [...links, ...getLink(pathFile)];
       })
-      console.log("es una carpeta");
+      resolve(links);
     }
   } else {
-    console.log("no existe la ruta");
+    reject(Error("no existe la ruta"));
   }
-  const validate = isValidate(rutaCalculada);
-  console.log(validate, 'validacion');
-};
-main();
+  
+});
+
+mdLinks("./pruebas/folder2/README4.md")
+  .then(links => {
+    console.log(links);
+  })
+  .catch(console.error);
+
+exports.module = {}
