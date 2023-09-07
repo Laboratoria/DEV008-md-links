@@ -1,4 +1,5 @@
 const config = require('./config');
+//const options = require('./options');
 
 console.log('<<Searching...>>');
 
@@ -6,8 +7,9 @@ const mdLinks = (path, options) => new Promise((resolve, reject) => {
   if (config.pathExist(path)) {
     const isAbsolutePath = config.absolutePathConverter(path);
     const filePathToRead = config.identifyFile(isAbsolutePath);
-    const fileExtension = config.fileValidation(filePathToRead);
-    config.extractLinks(fileExtension)
+    const isFileExtension = config.fileValidation(filePathToRead);
+    console.log(isFileExtension);
+    config.extractLinks(isFileExtension)
       .then((arrayProperties) => resolve(arrayProperties))
       .catch((err) => reject(err));
   } else {
@@ -16,8 +18,9 @@ const mdLinks = (path, options) => new Promise((resolve, reject) => {
 });
 
 // mdLinks('src/sample/draft.txt')
-// mdLinks('src/sample/draft.md')
- mdLinks('src/sample/folderA')
+// mdLinks('src/sample/folderB')
+//mdLinks('src/sample/draft.md')
+mdLinks('src/sample/folderA')
 //mdLinks('src/sample/empty.md')
   .then((result) => {
     console.log('El procedimiento esta correcto');

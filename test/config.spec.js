@@ -6,6 +6,12 @@ describe('configuration of auxiliary functions', () => {
     expect(response).toBe(true);
   });
 
+  test('should return an array with md files', () => {
+    const pathExample = ['src/sample/draft.md'];
+    const expectFile = config.fileValidation(pathExample);
+    expect(expectFile).toStrictEqual(pathExample);
+  })
+
   test('should return a absolute path', () => {
     const expectedResponse = 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample';
     const pathExample = 'src/sample';

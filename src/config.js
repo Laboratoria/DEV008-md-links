@@ -11,8 +11,9 @@ const absolutePathConverter = (filepath) => {
   return path.resolve(filepath);
 };
 //-----------------Validar si es un archivo .md-------------------//
-// const fileValidation2 = (fileArray) =>
-//   fileArray.filter((file) => path.extname(file) === '.md');
+/*Primera forma
+ const fileValidation2 = (fileArray) =>
+  fileArray.filter((file) => path.extname(file) === '.md');*/
 const fileValidation = (fileArray) => {
   const filterfile = fileArray.filter((file) => path.extname(file) === '.md');
   if (filterfile.length === 0) {
@@ -59,6 +60,7 @@ const identifyFile = (filepath) => {
   return scanDirectories(filepath);
 };
 
+//---------------------------Leer archivo------------------------//
 const readFile = (filepath, callback) => {
   fs.readFile(filepath, 'utf8', (err, data) => {
     if (err) {
@@ -69,42 +71,36 @@ const readFile = (filepath, callback) => {
   });
 };
 
-const extractLinks = (fileArray) =>
-  new Promise((resolve, reject) => {
-    // const link = /!?\[([^\]]*)?\]\(((https?:\/\/)?[A-Za-z0-9\:\/\.\_]+)(\'(.+)\')?\)/gm;
-    const link = /\[([^\]]+)\]\((http[s]?:\/\/[^)]+)\)/g;
-    const tag = /^\[([\w\s\d]+)\]/;
-    const url = /\(((?:\/|https?:\/\/)?[\w\d./?=#]+)\)$/;
-    fileArray.forEach((file) => {
-      readFile(file, (data) => {
-        const links = data.match(link);
+//---------------------------Obtener links-----------------------//
+const extractLinks = (fileArray) => new Promise((resolve, reject) => {
+  // const link = /!?\[([^\]]*)?\]\(((https?:\/\/)?[A-Za-z0-9\:\/\.\_]+)(\'(.+)\')?\)/gm;
+  const link = /\[([^\]]+)\]\((http[s]?:\/\/[^)]+)\)/g;
+  const tag = /^\[([\w\s\d]+)\]/;
+  const url = /\(((?:\/|https?:\/\/)?[\w\d./?=#]+)\)$/;
+  fileArray.forEach((file) => {
+    readFile(file, (data) => {
+      const links = data.match(link);
 
-        if (links === null) {
-          reject(new Error('no link found'));
-          return;
-        }
+      if (links === null) {
+        reject(new Error('no link found'));
+        return;
+      }
 
-        const arrayProperties = links.map((prop) => {
-          const text = prop.match(tag);
-          const href = prop.match(url);
-          return {
-            href: href[1],
-            text: text[1],
-            file,
-          };
-        });
-        resolve(arrayProperties);
+      const arrayProperties = links.map((prop) => {
+        const text = prop.match(tag);
+        const href = prop.match(url);
+        return {
+          href: href[1],
+          text: text[1],
+          file,
+        };
       });
+      console.log(arrayProperties);
+      resolve(arrayProperties);
+      // return arrayProperties;
     });
   });
-
-extractLinks(['src/sample/draft.md'])
-  .then((result) => {
-    console.log(result);
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+});
 
 module.exports = {
   pathExist,
