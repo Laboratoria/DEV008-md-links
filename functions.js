@@ -163,24 +163,31 @@ function findLinksInFile(filePath) {
   const fileData = readFile(filePath)
   const htmlContent = marked(fileData)
   const $ = cheerio.load(htmlContent);
-  const links = $('a').map((index, element) => console.log( $(element).attr('href'))).get();
+  const result = [];
+  console.log($('a'));
+  $('a').each(() =>  {
+    const object = {};
+    console.log($(this).attr('href'));
+    object.text = $(this).text();
+    result.push(object);
+  })
   //const links = $('a').map((index, element) => console.log( $(element).attr('href') + $(element).text())).get();
   //const textLinks = $('a').map((index, element) => $(element).text()).get();
-  //console.log(links);
-  return links//.forEach(link => console.log(link)); //Devuelve un array con los links //
+
+  return result//.forEach(link => console.log(link)); //Devuelve un array con los links //
 };
-findLinksInFile('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/example.md');
+console.log(findLinksInFile('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/example.md'));
 
 //--------------->PRUEBAS PARA TEXTO EN LOS LINKS
 function linksText(filePath) {
   const fileData = readFile(filePath)
   const htmlContent = marked(fileData)
   const $ = cheerio.load(htmlContent);
-  const textLinks = $('a').map((index, element) => console.log($(element).text())).get();
+  const textLinks = $('a').map((index, element) =>$(element).text()).get();
   //console.log('Link texts:', textLinks);
   return textLinks
 };
-linksText('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/example.md');
+console.log(linksText('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/example.md'));
 
 
 /*--------------------------- PRUEBAS PARA STATUS y OK (Mensaje) --------------------------------*/

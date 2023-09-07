@@ -75,8 +75,8 @@ function delay(ms) {
 
 const { marked } = require('marked');
 
-// const html = marked('# Marked in Node.js\n\nRendered by **marked**.'); //opcional marked.parse('')
-// console.log(html)
+ const html = marked('# Marked in Node.js\n\nRendered by **marked**.'); //opcional marked.parse('')
+ //console.log(html)
 
 // //--------------------PRUEBAS Cheerio---------------//
 const cheerio = require('cheerio');
@@ -95,5 +95,5 @@ const htmlContent = marked(fileContent);
 const $ = cheerio.load(htmlContent);
 const aLabels = $('a').map((index, element) => console.log($(element).text())).get();//---text--//
 const hrefLabels = $('a').map((index, element) => console.log($(element).attr('href'))).get();//---href--//
-//console.log(searchingLabels);
+console.log('aaaaaaa', $('a[href]'));
 
