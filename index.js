@@ -66,7 +66,7 @@ const mdLinks = (path, options) =>
 //   })
 //   .catch(console.error);
 
-  mdLinks("./pruebas/folder2/README4.md", { validate: true })
+  mdLinks("./pruebas/folder2/README4.md", { stats: true, validate : true })
   .then((links) => {
     console.log(links);
   })
