@@ -30,9 +30,7 @@
 const path = require('path');
 const fs = require('fs');
 const https = require('https');
-
-const { marked } = require('marked');
-const cheerio = require('cheerio');
+const marked = require('marked');
 
 const examplePath = 'example.md'; //Debe ser un string vacío/ Se llena para pruebas aquí // Con filename si lo valida correctamente
 
@@ -66,7 +64,7 @@ function mdLinksTaster(userPath, options) {  //AQUI SE JUNTAN TODAS LAS FUNCIONE
   };
   return validatedLink(userPath);
 };
-//mdLinksTaster('example.md');  //EJEMPLO//**/
+//mdLinksTaster('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/testing_docs/DataLovers.md');  //EJEMPLO//**/
 
 /*--------------------------- PRUEBAS PARA OBJETO CON VALOR DE RETORNO  --------------------------------*/
 
@@ -151,37 +149,36 @@ function identifyFileExtension(filePath) {
 //const fileExt = identifyFileExtension(convertedAbsolutePath);
 
 // 6) //Lee archivos//
-function readFile(filePath) {
+
+function readFileSync(filePath) {
   const fileData = fs.readFileSync(filePath, 'utf8');
-  //console.log(fileData);
+  console.log(fileData);
   return fileData;
 };
-//const fileData = readFile(convertedAbsolutePath);
+//const readFileSync = readFile(convertedAbsolutePath);
+
+/*
+function readFiles(filePath) { //NO FUNCIONA //
+  const dataFile = fs.readFile(filePath, 'utf8', (data) => {
+          console.log(data)
+  }
+  );
+  return dataFile;
+};
+readFiles('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/example.md')
+*/
 
 // 7) //Lee y encuentra los links en un archivo//
 function findLinksInFile(filePath) {
-  const fileData = readFile(filePath)
-  const htmlContent = marked(fileData)
-  const $ = cheerio.load(htmlContent);
-  const links = $('a').map((index, element) => console.log( $(element).attr('href'))).get();
-  //const links = $('a').map((index, element) => console.log( $(element).attr('href') + $(element).text())).get();
-  //const textLinks = $('a').map((index, element) => $(element).text()).get();
-  //console.log(links);
-  return links//.forEach(link => console.log(link)); //Devuelve un array con los links //
+  const fileData = readFiles(filePath);
+  const linkRegex = /https?:\/\/[^\s]+/g;
+  const links = fileData.match(linkRegex); 
+  console.log('Links:', links);
+  return links; //Devuelve un array con los links //
 };
-findLinksInFile('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/example.md');
-
-//--------------->PRUEBAS PARA TEXTO EN LOS LINKS
-function linksText(filePath) {
-  const fileData = readFile(filePath)
-  const htmlContent = marked(fileData)
-  const $ = cheerio.load(htmlContent);
-  const textLinks = $('a').map((index, element) => console.log($(element).text())).get();
-  //console.log('Link texts:', textLinks);
-  return textLinks
-};
-linksText('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/example.md');
-
+const links = findLinksInFile('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/example.md');
+//const link = links.forEach((link)=> console.log(link)); //--------------->PRUEBAS PARA TEXTO EN LOS LINKS
+/*--------------------------- PROBADO--------------------------------*/
 
 /*--------------------------- PRUEBAS PARA STATUS y OK (Mensaje) --------------------------------*/
 
@@ -199,6 +196,14 @@ function validateLink(link) {
   //.then(response => console.log(response.status))
   //.catch (error=> console.log('Error:', error)); 
 }
+
+function getLinkText(link) {
+  return fetch(link)
+    .then(response => {
+      console.log(response.text())
+    })
+}
+getLinkText('https://www.youtube.com/')
 
 /*function validateLink(link) {
   return fetch(link)
@@ -250,15 +255,24 @@ function validatedLink(filePath) {
 
 /*--------------------------- PRUEBAS PARA ETIQUETAS <a> --------------------------------*/
 
-//---------------PRUEBAS para cambiar un archivo a html-----------//
+//función para identificar etiquetas <a>*******
 
-//const filePath = 'C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/example.md';
-//const fileContent = fs.readFileSync(filePath, 'utf-8');
-//const htmlContent = marked(fileContent);
-//console.log(htmlContent);// FUNCIONA-----Convierte el documento en html//
+/*function identifyLabels(filePath) { //NO FUNCIONA
+  const data = readFile(filePath)
+  const labels = data.getElementsByTagName('a');
+  //console.log(data);
+  console.log(labels);
+  return labels
+}*/
+//identifyLabels('C:/Users/Kimberly/Documents/Laboratoria-Dev008/DEV008-md-links/example.md')
 
-//---------Para encontrar etiquetas <a> y sus atributos------------// FUNCIONA//
-//const $ = cheerio.load(htmlContent);
-//const aLabels = $('a').map((index, element) => console.log($(element).text())).get();//---text--//
-//const hrefLabels = $('a').map((index, element) => console.log($(element).attr('href'))).get();//---href--//
-//console.log(searchingLabels);
+//************** Función para obtener texto de las labels//********** 
+/*function getTextInLabel(labelElement) {
+  //const labelText = getTextInLabel(label);
+  return labelElement.textContent;
+}*/
+
+//************* Función para obtener href de las labels//**********
+
+/***********************Función para crear el objeto que va a devolver la función mdLinks//********/
+
