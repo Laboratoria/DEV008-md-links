@@ -86,7 +86,7 @@ const extractLinks = (fileArray) => new Promise((resolve, reject) => {
         return;
       }
 
-      const arrayProperties = links.map((prop) => {
+      const linkProperties = links.map((prop) => {
         const text = prop.match(tag);
         const href = prop.match(url);
         return {
@@ -95,9 +95,9 @@ const extractLinks = (fileArray) => new Promise((resolve, reject) => {
           file,
         };
       });
-      console.log(arrayProperties);
-      resolve(arrayProperties);
-      // return arrayProperties;
+      console.log(linkProperties);
+      resolve(linkProperties);
+      // return linkProperties;
     });
   });
 });

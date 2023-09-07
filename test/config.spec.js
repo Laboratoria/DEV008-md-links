@@ -34,4 +34,32 @@ describe('configuration of auxiliary functions', () => {
     const response = config.scanDirectories(pathExample);
     expect(response).toStrictEqual(expectedResponse);
   });
+
+  test('return an array with the properties of the link', () => {
+    const expectedResponse =  [
+      {
+        href: 'https://platzi.com/',
+        text: 'Platzi',
+        file: 'src/sample/draft.md'
+      },
+      {
+        href: 'https://www.universia.net/es/home.html',
+        text: 'Universia',
+        file: 'src/sample/draft.md'
+      },
+      {
+        href: 'http://asinglepage.net/',
+        text: 'asinglepage',
+        file: 'src/sample/draft.md'
+      },
+      {
+        href: 'http://asinglepage.net/',
+        text: 'asinglepage',
+        file: 'src/sample/draft.md'
+      }
+    ]
+    return config.extractLinks(['src/sample/draft.md']).then(response => {
+      expect(response).toStrictEqual(expectedResponse);
+    });
+  });
 });

@@ -10,7 +10,7 @@ const mdLinks = (path, options) => new Promise((resolve, reject) => {
     const isFileExtension = config.fileValidation(filePathToRead);
     console.log(isFileExtension);
     config.extractLinks(isFileExtension)
-      .then((arrayProperties) => resolve(arrayProperties))
+      .then((linkProperties) => resolve(linkProperties))
       .catch((err) => reject(err));
   } else {
     reject(new Error('The path does not exist'));
