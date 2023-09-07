@@ -17,7 +17,6 @@ const converAbsolute = function (ruta) {
 const isFile = function (ruta) {
   return fs.statSync(ruta).isFile();
 };
-console.log(isFile);
 const read = function (ruta) {
   return fs.readFileSync(ruta, "utf-8", (err, data) => {
     if (err) {
@@ -53,20 +52,12 @@ const check = function (links, options, resolve) {
     if (options.validate && options.stats) {
       resolve("tiene validate y stats");
     } else if (options.stats) {
-      resolve("tienr stats");
+      resolve("tiene stats");
+
     } else if (options.validate) {
       getPromisesHrefArray(links).then((results) => {
-        const  newlinks = links.map((link, linkIndex) => {
-          const result = results[linkIndex];
-          if (result.status === 'rejected') {
-            const statusCode = 'Mayor 200';
-            return {...link, status: statusCode, ok: 'fail'}
-          } else {
-            const statusCode = result.value.status;
-            return {...link, status: statusCode, ok: 'ok'}
-          }
-        });
-        resolve(newlinks);
+       const newLinks = resuLinks(links, results);
+        resolve(newLinks);
       });
     } else if (options.validate === false || options.stats === false) {
       resolve(links);
@@ -77,6 +68,19 @@ const check = function (links, options, resolve) {
     resolve(links);
   }
 };
+const resuLinks = function (links, results) {
+  const  newlinks = links.map((link, linkIndex) => {
+    const result = results[linkIndex];
+    if (result.status === 'rejected') {
+      const statusCode = 400;
+      return {...link, status: statusCode, ok: 'fail'}
+    } else {
+      const statusCode = result.value.status;
+      return {...link, status: statusCode, ok: 'ok'}
+    }
+  });
+  return newlinks;
+};
 module.exports = {
   validateFile,
   isAbsolute,
@@ -84,5 +88,6 @@ module.exports = {
   isFile,
   read,
   getLink,
+  getPromisesHrefArray,
   check,
 };

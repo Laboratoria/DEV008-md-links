@@ -12,6 +12,7 @@ const {
   isFile,
   getLink,
   check,
+  getPromisesHrefArray,
 } = require("./function.js");
 const { getFilesWithRecursively } = require("./api.js");
 
@@ -56,9 +57,10 @@ const mdLinks = (path, options) =>
     } else {
       reject(Error("no existe la ruta"));
     }
+    
   });
-
-// mdLinks("./pruebas/folder2/README4.md")
+  
+// mdLinks("./pruebas/folder2/README4.;md")
 //   .then((links) => {
 //     console.log(links);
 //   })
