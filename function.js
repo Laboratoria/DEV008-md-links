@@ -7,6 +7,7 @@ const markdownLinkExtractor = require("markdown-link-extractor");
 const validateFile = function (ruta) {
   return fs.existsSync(ruta);
 };
+
 const isAbsolute = function (ruta) {
   return path.isAbsolute(ruta);
 };
@@ -67,7 +68,7 @@ const check = function (links, options, resolve) {
   if (options !== undefined && typeof options === "object") {
     if (options.validate && options.stats) {
       getPromisesHrefArray(links).then((results) => {
-        const newLinks = resuLinks(links, results);
+        const newLinks = resultLinks(links, results);
         const brokenLinks = newLinks.filter((obj) => {
           return obj.ok === "fail";
         });
@@ -87,7 +88,7 @@ const check = function (links, options, resolve) {
       `);
     } else if (options.validate) {
       getPromisesHrefArray(links).then((results) => {
-        const newLinks = resuLinks(links, results);
+        const newLinks = resultLinks(links, results);
         resolve(newLinks);
       });
     } else if (options.validate === false || options.stats === false) {
@@ -99,11 +100,11 @@ const check = function (links, options, resolve) {
     resolve(links);
   }
 };
-const resuLinks = function (links, results) {
+const resultLinks = function (links, results) {
   const newlinks = links.map((link, linkIndex) => {
     const result = results[linkIndex];
     if (result.status === "rejected") {
-      const statusCode = 400;
+      const statusCode = 404;
       return { ...link, status: statusCode, ok: "fail" };
     } else {
       const statusCode = result.value.status;
@@ -135,6 +136,9 @@ module.exports = {
   converAbsolute,
   isFile,
   getLinks,
+  getPromisesFiles,
+  resultLinks,
   getPromisesHrefArray,
   check,
+  validateStats 
 };
