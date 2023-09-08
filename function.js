@@ -2,7 +2,7 @@
 const fs = require("fs");
 const path = require("node:path");
 const markdownLinkExtractor = require("markdown-link-extractor");
-const axios = require("axios");
+
 
 //validarArchivos();
 const validateFile = function (ruta) {
@@ -88,7 +88,7 @@ const resuLinks = function (links, results) {
     const result = results[linkIndex];
     if (result.status === "rejected") {
       const statusCode = 400;
-      return { ...link, status: statusCode, ok: "fail" };
+      return {...link, status: statusCode, ok: "fail" };
     } else {
       const statusCode = result.value.status;
       return { ...link, status: statusCode, ok: "ok" };
