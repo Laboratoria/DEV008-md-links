@@ -1,6 +1,6 @@
 {
   "name": "danitap-md-links",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "commonjs",
   "engines": {
     "node": ">=16.x"
@@ -10,11 +10,16 @@
     "version": "6.3.0",
     "commit": "a942adeb868f1fe54b86e34cc4fc4ddb0601700d"
   },
+  "keywords": [
+    "javascript",
+    "jest"
+  ],
+  "autor": [
+    "Daniela Tapias Giraldo",
+    "tapiasdaniela669@gmail.com"
+  ],
   "license": "MIT",
   "dependencies": {
-    "axios": "^1.4.0",
-    "chalk": "^5.3.0",
-    "danitap-md-links": "^0.1.0",
     "markdown-link-extractor": "^2.0.1"
   },
   "devDependencies": {

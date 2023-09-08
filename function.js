@@ -3,7 +3,6 @@ const fs = require("fs");
 const path = require("node:path");
 const markdownLinkExtractor = require("markdown-link-extractor");
 
-
 //validarArchivos();
 const validateFile = function (ruta) {
   return fs.existsSync(ruta);
@@ -17,26 +16,43 @@ const converAbsolute = function (ruta) {
 const isFile = function (ruta) {
   return fs.statSync(ruta).isFile();
 };
-const read = function (ruta) {
-  return fs.readFileSync(ruta, "utf-8", (err, data) => {
-    if (err) {
-      console.log("error: ", err);
-    } else {
-      console.log(data);
-    }
+
+const getPromisesFiles = (filesPath) => {
+  let arrayPromiseArray = [];
+  filesPath.forEach((path) => {
+    arrayPromiseArray = [
+      ...arrayPromiseArray,
+      new Promise((resolve, reject) => {
+        fs.readFile(path, { encoding: "utf8" }, (err, data) => {
+          if (err) {
+            reject(Error(`Error reading the file: ${path}`));
+          }
+          resolve(data);
+        });
+      }),
+    ];
   });
+  return Promise.allSettled(arrayPromiseArray);
 };
 
-const getLink = function (ruta) {
-  const readIng = read(ruta);
-  const objectLinks = markdownLinkExtractor(readIng, true);
-  let arrayLinks = objectLinks.links;
-  const transformedLinks = arrayLinks.map((link) => ({
-    href: link.href,
-    text: link.text,
-    file: ruta,
-  }));
-  return transformedLinks;
+const getLinks = function (ruta, options, resolve) {
+  // se crea un arreglo de promesas para guardar lectura de cada ruta de archivos
+  getPromisesFiles(ruta).then((results) => {
+    let links = [];
+    // todas las rutas de los archivos en un array
+    // iterar cada una de las rutas y obtener sus links
+    results.forEach((result) => {
+      const objectLinks = markdownLinkExtractor(result.value, true);
+      let arrayLinks = objectLinks.links;
+      const transformedLinks = arrayLinks.map((link) => ({
+        href: link.href,
+        text: link.text,
+        file: ruta,
+      }));
+      links = [...links, ...transformedLinks];
+    });
+    check(links, options, resolve);
+  });
 };
 
 const getPromisesHrefArray = (links) => {
@@ -52,9 +68,9 @@ const check = function (links, options, resolve) {
     if (options.validate && options.stats) {
       getPromisesHrefArray(links).then((results) => {
         const newLinks = resuLinks(links, results);
-        const brokenLinks = newLinks.filter(obj => {
-          return obj.ok === 'fail';
-        })
+        const brokenLinks = newLinks.filter((obj) => {
+          return obj.ok === "fail";
+        });
         const linkStats = validateStats(newLinks);
         resolve(`
         Total: ${linkStats.total}
@@ -88,7 +104,7 @@ const resuLinks = function (links, results) {
     const result = results[linkIndex];
     if (result.status === "rejected") {
       const statusCode = 400;
-      return {...link, status: statusCode, ok: "fail" };
+      return { ...link, status: statusCode, ok: "fail" };
     } else {
       const statusCode = result.value.status;
       return { ...link, status: statusCode, ok: "ok" };
@@ -118,8 +134,7 @@ module.exports = {
   isAbsolute,
   converAbsolute,
   isFile,
-  read,
-  getLink,
+  getLinks,
   getPromisesHrefArray,
   check,
 };

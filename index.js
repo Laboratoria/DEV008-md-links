@@ -6,8 +6,7 @@ const {
   isAbsolute,
   converAbsolute,
   isFile,
-  getLink,
-  check,
+  getLinks,
 } = require("./function.js");
 const { getFilesWithRecursively } = require("./api.js");
 
@@ -15,7 +14,6 @@ const { getFilesWithRecursively } = require("./api.js");
 const mdLinks = (path, options) =>
   new Promise((resolve, reject) => {
     const exist = validateFile(path);
-    let links = [];
     let rutaCalculada = "";
     if (exist) {
       const absolute = isAbsolute(path);
@@ -29,19 +27,13 @@ const mdLinks = (path, options) =>
       if (file) {
         const extension = Path.extname(rutaCalculada);
         if (extension === ".md") {
-          links = [...links, ...getLink(rutaCalculada)];
-          check(links, options, resolve);
+          getLinks([rutaCalculada], options, resolve);
         } else {
           reject(Error("No es un archivo md"));
         }
       } else {
         const readFile = getFilesWithRecursively(rutaCalculada);
-        // todas las rutas de los archivos en un array
-        // iterar cada una de las rutas y obtener sus links
-        readFile.forEach((pathFile) => {
-          links = [...links, ...getLink(pathFile)];
-        });
-        check(links, options, resolve);
+        getLinks(readFile, options, resolve);
       }
     } else {
       reject(Error("No existe la ruta"));
