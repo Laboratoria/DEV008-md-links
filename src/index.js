@@ -8,16 +8,17 @@ const mdLinks = (path, options) => new Promise((resolve, reject) => {
     const isAbsolutePath = config.absolutePathConverter(path);
     const filePathToRead = config.identifyFile(isAbsolutePath);
     const isFileExtension = config.fileValidation(filePathToRead);
-    console.log(isFileExtension);
     config.extractLinks(isFileExtension)
-      .then((linkProperties) => resolve(linkProperties))
+      .then((linkProperties) => {
+        resolve(linkProperties);
+      })
       .catch((err) => reject(err));
   } else {
     reject(new Error('The path does not exist'));
   }
 });
 
-// mdLinks('src/sample/draft.txt')
+//mdLinks('src/sample/draft.txt')
 // mdLinks('src/sample/folderB')
 //mdLinks('src/sample/draft.md')
 mdLinks('src/sample/folderA')

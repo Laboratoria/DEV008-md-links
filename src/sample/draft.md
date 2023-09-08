@@ -2,6 +2,7 @@ Here you will find two valid links and one broken link:
 - [Platzi](https://platzi.com/)
 - [Universia](https://www.universia.net/es/home.html)
 - [asinglepage](http://asinglepage.net/)
+- [Lyft](https://www.lyft.com/riderCAR)
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet lacus a magna eleifend feugiat vitae in tellus. Fusce condimentum, ipsum in mollis euismod, elit erat rhoncus felis, non volutpat quam arcu quis erat. Morbi justo purus, imperdiet non tincidunt nec, cursus non leo. Duis accumsan tellus at feugiat posuere. Maecenas eu nisi et est vulputate pharetra. Nullam et porta odio. Nam placerat dui aliquam, eleifend mauris vel, efficitur quam. Aliquam faucibus a ex in tincidunt. Praesent vel porttitor lorem. Curabitur mollis massa id nunc semper, non pulvinar purus faucibus. Maecenas ullamcorper sem vitae eros sodales fringilla. In ullamcorper tempus tincidunt. Aliquam erat volutpat.
 
