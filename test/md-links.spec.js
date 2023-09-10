@@ -1,9 +1,9 @@
-const mdLinks = require('../index.js');
+const mdLinks = require('../index.cjs');
 const path = require ('path');
 const fs = require('fs');
 const axis = require('axios');
 
-const {rutaExistente, rutaAbsoluta, rutaDirectorio, leerContenido,retornarEstadisticas,enlacesRotos,preguntarAxiosHTTP,extraerEnlaces }= require('../functions.js');
+const {rutaExistente, rutaAbsoluta, rutaDirectorio, leerContenido,retornarEstadisticas,enlacesRotos,preguntarAxiosHTTP,extraerEnlaces }= require('../functions.cjs');
 
 
 /*---------------------------------------------*/

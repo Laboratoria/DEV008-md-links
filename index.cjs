@@ -1,6 +1,6 @@
 
-const {rutaExistente, rutaAbsoluta, rutaDirectorio, leerContenido,retornarEstadisticas,enlacesRotos,preguntarAxiosHTTP,extraerEnlaces }= require("./functions.js");
-
+const {rutaExistente, rutaAbsoluta, rutaDirectorio, leerContenido,retornarEstadisticas,enlacesRotos,preguntarAxiosHTTP,extraerEnlaces }= require("./functions.cjs");
+const chalk = require('chalk');
 
 /*-------------------------------
 |                                |

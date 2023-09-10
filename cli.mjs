@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-const chalk = require('chalk');
-const meow = require('meow');
-const { mdLinks } = require('./index');
+import chalk from 'chalk';
+import meow from 'meow';
+import { mdLinks } from './index.cjs';
 
 
 const cli = meow(`

@@ -33,6 +33,7 @@
   },
   "keywords": [],
   "dependencies": {
+    "axios": "^1.5.0",
     "chalk": "^4.1.2",
     "chalk-animation": "^2.0.3",
     "cheerio": "^1.0.0-rc.12",
@@ -46,6 +47,7 @@
     "markdown-it-attrs": "^4.1.6",
     "marked": "^7.0.5",
     "meow": "^12.1.1",
+    "meta": "^2.2.25",
     "nanospinner": "^1.1.0",
     "node": "^20.5.1",
     "node-fetch": "^3.3.2",
