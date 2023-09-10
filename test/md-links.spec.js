@@ -9,20 +9,58 @@ const {rutaExistente, rutaAbsoluta, rutaDirectorio, leerContenido,retornarEstadi
 /*---------------------------------------------*/
 //    TESTING RUTA EXISTENTE                   //
 /*---------------------------------------------*/
-
+describe('Probar la existencia de la ruta',()=>{
+  it('Validar la funcion', ()=>{
+    expect(typeof rutaExistente).toBe('function');
+  });
+});
 
 /*---------------------------------------------*/
 //    TESTING RUTA EXISTENTA                    //
 /*---------------------------------------------*/
-
+describe('Probar que la ruta sea absoluta',()=>{
+  it('Validar la funcion', ()=>{
+    expect(typeof rutaAbsoluta).toBe('function');
+  });
+});
 /*---------------------------------------------*/
 //    TESTING RUTA DIRECTORIO                   //
 /*---------------------------------------------*/
+describe('Probar que tenga contenido en el directorio',()=>{
+  it('Validar la funcion', ()=>{
+    expect(typeof rutaDirectorio).toBe('function');
+  });
+});
+/*---------------------------------------------*/
+//    TESTING lEER EL CONTENIDO               //
+/*---------------------------------------------*/
+describe('Probar que se pueda leer el contenido',()=>{
+  it('Validar la funcion', ()=>{
+    expect(typeof leerContenido).toBe('function');
+  });
+});
+/*---------------------------------------------*/
+//    TESTING PREGUNTAR AXIOS HTTP              //
+/*---------------------------------------------*/
+describe('Probar que se pueda leer el contenido',()=>{
+  it('Validar la funcion', ()=>{
+    expect(typeof preguntarAxiosHTTP).toBe('function');
+  });
+});
 
 /*---------------------------------------------*/
 //    TESTING ESTADÍSTICAS DE ENLACES          //
 /*---------------------------------------------*/
-
+describe('Probar que se pueda retornar las estadísticas',()=>{
+  it('Validar la funcion', ()=>{
+    expect(typeof retornarEstadisticas).toBe('function');
+  });
+});
 /*---------------------------------------------*/
 //    TESTING ESTADÍSTICAS DE ENLACES ROTOS    //
 /*---------------------------------------------*/
+describe('Probar que se pueda retornar las estadísticas de los enlaces rotos',()=>{
+  it('Validar la funcion', ()=>{
+    expect(typeof enlacesRotos).toBe('function');
+  });
+});
