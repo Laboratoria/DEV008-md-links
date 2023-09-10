@@ -1,23 +1,34 @@
 const marked = require('marked');
-const fs = require('fs');
-const path = require('path');
+const fs     = require('fs');
+const path   = require('path');
 const fetchPromise = import('node-fetch');
+const markdownit = require('markdown-it');
+const markdownitAttrs = require('markdown-it-attrs');
+
+
+const md = markdownit();
+md.use(markdownitAttrs);
 
 function extractLinks(filePath) {
     return new Promise((resolve, reject) => {
         const fileContent = fs.readFileSync(filePath, 'utf8');
         const links = [];
 
-        const renderer = new marked.Renderer();
-        renderer.link = (href, title, text) => {
-            links.push({
-                href: href,
-                text: text,
-                file: filePath
-            });
-        };
+        const tokens = md.parse(fileContent, {}); // Analizar el contenido Markdown en tokens
 
-        marked.setOptions(fileContent, { renderer: renderer });
+        tokens.forEach(token => {
+            if (token.type === 'link_open') {
+                const linkToken = tokens[tokens.indexOf(token) + 1]; // Siguiente token contiene la información del enlace
+                const hrefAttr = linkToken.attrs.find(attr => attr[0] === 'href');
+                const text = md.renderer.render([linkToken]); // Renderizar el contenido del enlace a texto
+
+                links.push({
+                    href: hrefAttr ? hrefAttr[1] : '',
+                    text: text,
+                    file: filePath
+                });
+            }
+        });
 
         resolve(links);
     });

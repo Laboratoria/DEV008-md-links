@@ -1,13 +1,28 @@
-const mdLinks = require('../index.cjs');
+const mdLinks = require('../index.js');
+const path = require ('path');
+const fs = require('fs');
+const axis = require('axios');
+
+const {rutaExistente, rutaAbsoluta, rutaDirectorio, leerContenido,retornarEstadisticas,enlacesRotos,preguntarAxiosHTTP,extraerEnlaces }= require('../functions.js');
 
 
-describe('mdLinks', () => {
-    it('should extract links from markdown file', () => {
-    // Implementar la primera prueba
-      console.log('Correct!');
-  });
-  it('it could not extract links from markdown file', () => {
-    // Implementar la primera prueba
-      console.log('Incorrecto!');
-  });
-});
+/*---------------------------------------------*/
+//    TESTING RUTA EXISTENTE                   //
+/*---------------------------------------------*/
+
+
+/*---------------------------------------------*/
+//    TESTING RUTA EXISTENTA                    //
+/*---------------------------------------------*/
+
+/*---------------------------------------------*/
+//    TESTING RUTA DIRECTORIO                   //
+/*---------------------------------------------*/
+
+/*---------------------------------------------*/
+//    TESTING ESTADÍSTICAS DE ENLACES          //
+/*---------------------------------------------*/
+
+/*---------------------------------------------*/
+//    TESTING ESTADÍSTICAS DE ENLACES ROTOS    //
+/*---------------------------------------------*/
