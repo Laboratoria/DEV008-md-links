@@ -40,6 +40,15 @@ describe('Probar que se pueda leer el contenido',()=>{
   });
 });
 /*---------------------------------------------*/
+//    TESTING EXTRAER EL ENLACES               //
+/*---------------------------------------------*/
+describe('Probar que se pueda extraer enlaces',()=>{
+  it('Validar la funcion', ()=>{
+    expect(typeof extraerEnlaces).toBe('function');
+  });
+});
+
+/*---------------------------------------------*/
 //    TESTING PREGUNTAR AXIOS HTTP              //
 /*---------------------------------------------*/
 describe('Probar que se pueda leer el contenido',()=>{
