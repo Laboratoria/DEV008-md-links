@@ -1,23 +1,25 @@
-//aqui realizo funciones pequeñas
+
 const fs = require("fs");
 const path = require("node:path");
 const markdownLinkExtractor = require("markdown-link-extractor");
 
-//validarArchivos();
+//verifico si existe la ruta
 const validateFile = function (ruta) {
   return fs.existsSync(ruta);
 };
-
+//pregunto si la ruta es absoluta
 const isAbsolute = function (ruta) {
   return path.isAbsolute(ruta);
 };
+//en caso de ser relativa la convierto en absoluta
 const converAbsolute = function (ruta) {
   return path.resolve(ruta);
 };
+//valido si es un archivo
 const isFile = function (ruta) {
   return fs.statSync(ruta).isFile();
 };
-
+//obtengo todos los archivos en un arreglo de promesas
 const getPromisesFiles = (filesPath) => {
   let arrayPromiseArray = [];
   filesPath.forEach((path) => {
@@ -63,7 +65,7 @@ const getPromisesHrefArray = (links) => {
   });
   return Promise.allSettled(arrayPromiseArray);
 };
-
+//creo funcion para las options
 const check = function (links, options, resolve) {
   if (options !== undefined && typeof options === "object") {
     if (options.validate && options.stats) {
