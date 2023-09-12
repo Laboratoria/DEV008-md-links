@@ -1,6 +1,6 @@
 
-const {rutaExistente, rutaAbsoluta, rutaDirectorio, leerContenido,retornarEstadisticas,enlacesRotos,preguntarAxiosHTTP,extraerEnlaces }= require("./functions.cjs");
-const chalk = require('chalk');
+const {rutaExistente, rutaAbsoluta, isDirectory,filtroMd, leerContenido,retornarEstadisticas,enlacesRotos,preguntarAxiosHTTP,extraerEnlaces, esArchivo }= require('./functions.js');
+
 
 /*-------------------------------
 |                                |
@@ -10,47 +10,52 @@ const chalk = require('chalk');
 
 
 
-const mdLinks = (route, options) => {
-return new Promise((resolve,reject) => {
-const existe = rutaExistente(route);
-if(existe == true){
-  const rutaAbsolutaValidada = rutaAbsoluta(route);
-  console.log(rutaAbsolutaValidada);
-  const archivoMd = rutaDirectorio(rutaAbsolutaValidada);
-  const leerContenidoMd = leerContenido(archivoMd);
-  if(leerContenidoMd.length === 0){
-    reject ('De acuerdo a lo validado no se han encontrado archivo .md')
-  }
-  const arregloEnlace = extraerEnlaces(leerContenidoMd);
-  if(options.validate === false && options.stats === false ){
-    resolve(arregloEnlace)
-  }
-  const estadistica = retornarEstadisticas(arregloEnlace);
-  if (options.validate === false && options.stats === true) {
-        resolve(estadistica)
-  }
-  if (options.validate === true && options.stats === true){
-    preguntarAxiosHTTP(arregloEnlace)
-    .then((response) => {
-      resolve(enlacesRotos(response))
-    })
-  }
-  if (options.validate === true && options.stats === false) {
-    const leerContenidoHTPP = preguntarAxiosHTTP(arregloEnlace);
-    leerContenidoHTPP.then((response) => {
-      resolve(response)
-    })
+const mdLinks = (path, options) => {
+    return new Promise((resolve,reject) => {
+        const validacionRutaAbsoluta = rutaAbsoluta(path);
+        if(rutaExistente(validacionRutaAbsoluta) === false){
+            reject('No es una ruta absoluta')
+        }
+        let arrayArchivos = [];
+        if (esArchivo(validacionRutaAbsoluta) === true) {
+            arrayArchivos.push(validacionRutaAbsoluta)
+          } else {
+            arrayArchivos = isDirectory(validacionRutaAbsoluta)
+          }
+          let arrayFilesMd = filtroMd(arrayArchivos)
 
-  }
-} else {
-  reject('Ruta no valida')
-}
-});
-}
+          if (arrayFilesMd.length === 0) reject('No existen archivos .md ')
+
+          let fileString = leerContenido(arrayFilesMd);
 
 
-/*-------------------------------*/
-//    Exportar modulos
-/*-------------------------------*/
-module.exports = { mdLinks };
+          const enlace = extraerEnlaces(fileString)
+
+
+          if (options.validate === false && options.stats === false) {
+            resolve(enlace);
+          }
+          if (options.validate === true && options.stats === false) {
+            preguntarAxiosHTTP(enlace)
+              .then((response) => resolve(response));
+          }
+
+          if (options.validate === false && options.stats === true) {
+            resolve(retornarEstadisticas(enlace));
+          }
+          if (options.validate === true && options.stats === true) {
+            preguntarAxiosHTTP(enlace)
+              .then((response) => resolve(enlacesRotos(response)));
+          }
+
+        });
+      };
+
+
+
+
+    /*-------------------------------*/
+    //    Exportar modulos
+    /*-------------------------------*/
+    module.exports = { mdLinks };
 

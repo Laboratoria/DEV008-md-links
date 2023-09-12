@@ -1,60 +1,66 @@
 #!/usr/bin/env node
-import chalk from 'chalk';
-import meow from 'meow';
-import { mdLinks } from './index.cjs';
+const {mdLinks} = require('./index.js');
+const args = process.argv.slice(2);
+const filePath = args[0];
 
 
-const cli = meow(`
-${chalk.yellowBright('*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*')}
-${chalk.blueBright('ʕ•́ᴥ•̀ʔっ')} BIENVENIDO      ${chalk.bgMagentaBright('ʕ•́ᴥ•̀ʔっ')}
-${chalk.yellowBright('*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*')}
-${chalk.greenBright('Modo de uso')}
-    $ mdlinks <path>
+const options = {
+    validate: args.includes('--validate') || args.includes('-v'),
+    stats: args.includes('--stats') || args.includes('-s')
+};
 
-    ${chalk.greenBright('Opciones')}
-    ${chalk.greenBright('--stats')}  ,                ${chalk.bold('Esta opción mostrará las estadísticas')}
-    ${chalk.greenBright('--validate ')}               ${chalk.bold('Esta opción mostrará el resultado de la validación')}
-    ${chalk.greenBright('--stats --validate')}        ${chalk.bold('Esta opción mostrará el resultado de las estadísticas y la validación')}
- ${chalk.yellowBright('*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*')}
-    `, {
-      importMeta: require.meta,
-    input: ['path'],
-    flags: {
-      validate: {
-        type: 'boolean',
-        shortFlag: 'V'
-      },
-      stats: {
-        type: 'boolean',
-        shortFlag: 'S'
-      },
+if (options.validate && options.stats) {
+    mdLinks(filePath, { validate: true })
+        .then(links => {
+            const totalLinks = links.length;
+            const uniqueLinks = new Set(links.map(link => links.href)).size;
+            const brokenLinks = links.filter(link => links.ok === 'fail').length;
 
-    }
-  });
+            const statsTotal = `Total: ${totalLinks}`;
+            const statsUnique= `\nUnique: ${uniqueLinks}`;
+            const statsBroken = `\nBroken: ${brokenLinks}`;
 
-  if (cli.input[0] == undefined) {
-    console.log('Ingresar ruta');
-  } else {
-    mdLinks(cli.input[0], cli.flags)
-      .then(response => {
-        if (cli.flags.stats === false) {
-          response.forEach(item => {
-            if (cli.flags.validate === true) {
-              console.log(chalk.green(item.file), chalk.greenBright(item.href), chalk.yellow(item.text), chalk.yellowBright(item.status), chalk.bgYellowBright(item.mensaje));
-            } else {
-              console.log(chalk.green(item.file), chalk.greenBright(item.href), chalk.yellow(item.text));
-            }
-          });
-        } else {
-          if (cli.flags.validate === true) {
-            console.log(chalk.blue('Total:'), response.total);
-            console.log(chalk.green('Unique:'), response.unique);
-            console.log(chalk.magenta('Broken:'), response.broken);
-          } else {
-            console.log(chalk.blue('Total:'), response.total);
-            console.log(chalk.green('Unique:'), response.unique);
-          }
-        }
-      })
-      .catch(error => { console.log(error); });
-  }
+            console.log(statsTotal);
+            console.log(statsUnique);
+            console.log(statsBroken);
+
+        })
+        .catch(error => {
+            console.error(error);
+        });
+} else if (options.validate) {
+    mdLinks(filePath, { validate: true })
+        .then(links => {
+            links.forEach(link => {
+                console.log((`${link.file} ${link.href} ${link.ok} ${link.status}`));
+            });
+        })
+        .catch(error => {
+            console.error(error);
+        });
+} else if (options.stats) {
+    mdLinks(filePath, {})
+        .then(links => {
+            const totalLinks = links.length;
+            const uniqueLinks = new Set(links.map(link => link.href)).size;
+
+            const statsTotal = `Total: ${totalLinks}`;
+            const statsUnique= `\nUnique: ${uniqueLinks}`;
+            console.log(statsTotal);
+            console.log(statsUnique);
+
+        })
+        .catch(error => {
+            console.error(error);
+        });
+} else {
+    mdLinks(filePath, {})
+        .then(links => {
+            links.forEach(link => {
+                console.log(`${link.file} ${link.href} ${link.text}`);
+            });
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}

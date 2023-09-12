@@ -6,55 +6,63 @@ const axios = require('axios');
 //    Validación de la ruta                     //
 /*---------------------------------------------*/
 function rutaExistente(route){
-  if(fs.existsSync(route)){
-    return true;
-    }else{
-    return false;
-    }
+    return fs.existsSync(route);
 }
 
 /*---------------------------------------------*/
 //    Transformar de la ruta en absoluta        //
 /*---------------------------------------------*/
 function rutaAbsoluta(route){
-  if(!path.isAbsolute(route)){
-    return path.resolve(route);
-  }else {
+  if(path.isAbsolute(route)){
     return route;
+  }else {
+    return path.resolve(route);
   }
 }
+
+function esArchivo(route){
+const stats =fs.statSync(route);
+if(stats.isFile()){
+return true;
+} else {
+  return false;
+}
+}
+
+
+
+
 /*---------------------------------------*/
 // Validar si la ruta es un directorio   //
 /*--------------------------------------*/
-function rutaDirectorio(route) {
-const stats =fs.statSync(route);
-console.log(stats);
-if(stats.isFile()){
-  return [route];
-}
-  else if(stats.rutaDirectorio()){
+function isDirectory(route) {
     let array = [];
-    const files = fs.readdirSync(route);
+ function exploreDirectory(exploreRoute) {
+    const files = fs.readdirSync(exploreRoute,'utf-8');
       files.forEach((file)=>{
-        const nuevaRuta = path.join(route,file);
+        const nuevaRuta = path.join(exploreRoute,file);
         const nuevoEstado =fs.statSync(nuevaRuta);
         if(nuevoEstado.isFile()){
           array.push(nuevaRuta);
-        } else if (nuevoEstado.rutaDirectorio()){
-          array =array.concat(rutaDirectorio(nuevaRuta));
+        } else {
+          exploreDirectory(nuevaRuta);
         }
       });
-      return array.filter(file => path.extname(file)=='.md');
-  }
-      return [];
+    }
+      exploreDirectory(nuevaRuta);
+      return array;
+}
+
+function filtroMd(arrayFiles){
+  return arrayFiles.filter(file => path.extname(file)==='md');
 }
 
 /*-------------------------------------*/
 //      Leer el contenido de la ruta   //
 /*------------------------------------*/
-function leerContenido(route) {
+function leerContenido(arrayFiles) {
  const contenidoArreglo =[];
- route.forEach((pathFile) =>{
+ arrayFiles.forEach((pathFile) =>{
   const contenido =fs.readdirSync(pathFile,'utf-8');
   contenidoArreglo.push({filePath:pathFile, content:contenido});
  });
@@ -102,7 +110,7 @@ const promesasArreglo = linksArrays.map((item) =>{
       item.status =err.response.status
       item.mensaje=err.response.statusText
     }else{
-      item.status =404
+      item.status = 404
       item.mensaje='No encontrado'
     }
     return item
@@ -114,11 +122,11 @@ return Promise.all(promesasArreglo);
 /*---------------------------------------*/
 //        Retornar estadísticas          //
 /*---------------------------------------*/
-function retornarEstadisticas(array) {
+function retornarEstadisticas(arrayLinks) {
 const setEnlaces = new Set();
-array.forEach(item => setEnlaces.add(item.href));
+arrayLinks.forEach(item => setEnlaces.add(item.href));
 return {
-  total: array.length,
+  total: arrayLinks.length,
   unique: setEnlaces.size
 };
 }
@@ -126,12 +134,12 @@ return {
 /*-------------------------------------------------*/
 //    incluir a las estadisticas los enlaces rotos
 /*-------------------------------------------------*/
-function enlacesRotos(array) {
+function enlacesRotos(arrayLinks) {
   const setEnlaces = new Set();
- array.forEach(item => setEnlaces.add(item.href));
+  arrayLinks.forEach(item => setEnlaces.add(item.href));
  const enlaceQuebrado = arrayFilter(item => item.status === 404);
  return {
-    total: array.length,
+    total: arrayLinks.length,
     unique: setEnlaces.size,
     broken: enlaceQuebrado.length
  };
@@ -141,4 +149,4 @@ function enlacesRotos(array) {
 //    Exportar modulos
 /*-------------------------------*/
 
-module.exports = {rutaExistente, rutaAbsoluta, rutaDirectorio, leerContenido,retornarEstadisticas,enlacesRotos,preguntarAxiosHTTP,extraerEnlaces };
+  module.exports = {rutaExistente, rutaAbsoluta, isDirectory, leerContenido,retornarEstadisticas,enlacesRotos,preguntarAxiosHTTP,extraerEnlaces,esArchivo,filtroMd };
