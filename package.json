@@ -22,14 +22,7 @@
     "node-fetch": "^2.7.0"
   },
   "prettier": {
-    "alignObjectProperties": true,
-    "arrayExpand": true,
-    "arrowParens": "always",
-    "jsxBracketSameLine": true,
-    "jsxSingleQuote": true,
-    "printWidth": 100,
-    "singleQuote": true,
-    "tabWidth": 2
+    "singleQuote": true
   },
   "devDependencies": {
     "eslint": "^8.48.0",
