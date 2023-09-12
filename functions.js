@@ -7,6 +7,33 @@ const cheerio = require('cheerio');
 const examplePath = 'example.md';
 
 //PRUEBA DE FUNCION mdLinks - hacerlo en mdLinks // FUNCIONA //
+/*
+function mdLinksTaster(userPath, options) {
+  let absolutePath = '';
+
+  if (!validatePath(userPath)) {
+    return false;
+  }
+  if (validateAbsolutePath(userPath)) {
+    console.log('Absolute Path is ' + userPath)
+    absolutePath = userPath;
+  } else {
+    console.log('Absolute Path is ' + convertToAbsolutePath(userPath))
+    absolutePath = convertToAbsolutePath(userPath)
+  };
+  //console.log(absolutePath);
+  if (!identifyFile(absolutePath)) {
+    return false
+  };
+  if (identifyFileExtension(absolutePath) === '.md') {
+    findLinksInFile(absolutePath);
+  } else {
+    return false
+  };
+  return validatedLink(userPath);
+};
+//mdLinksTaster('example.md');  //EJEMPLO//*
+*/
 
 function mdLinksTaster(userPath, options) {
   let absolutePath = '';
@@ -109,31 +136,8 @@ function readFile(filePath) {
 };
 //const fileData = readFile(convertedAbsolutePath);
 
-/*--------------------------- PRUEBAS PARA STATUS y OK (Mensaje) --------------------------------*/
-
-// petición HTTP  // Se puede separar en dos, una función que valide y otra que muestre el mensaje //
-function validateLink(link) {
-  const validatedLinks = [];
-  link.forEach((element) => {
-    fetch(element)
-      .then(response => {
-        validatedLinks.push({
-          href: response.url,
-          //text: response.textContent,
-          status: response.status,
-          ok: response.statusText
-        })
-        console.log(validatedLinks);
-        return validatedLinks;
-      })
-      .catch(error => console.log('FAIL'));
-  })
-
-}
-//validateLink(['https://www.youtube.com/', 'https://www.instagra.com/'])
-
-function linksText(userPath) {
-  const linksData = [];
+function getLinks(userPath) {
+  let linksData = [];
   const fileContent = readFile(userPath);
   const htmlContent = marked(fileContent);
   const $ = cheerio.load(htmlContent);
@@ -144,8 +148,57 @@ function linksText(userPath) {
       href: link,
       text: text
     })
-    console.log(linksData)
-    return linksData
   });
+  //console.log(linksData)
+  return linksData
 };
-//linksText('example.md');
+const links = getLinks('example.md');
+console.log(links);
+
+const validateLinks = (userPath) =>{
+  new Promise((resolve, reject) => {
+    let links = [];
+
+  })
+}
+
+/*
+//------------Para validar los links-------------------//
+let promiseValidateLink = new Promise(function(resolve, reject) {
+  resolve(console.log('Done'));
+  reject(new Error("error"));
+});
+
+function validateLink(links) {
+  let validatedLinks = [];
+  links.forEach((element) => {
+    fetch(element)
+      .then(response => {
+        const linkStatus = {
+          href: response.url,
+          //text: response.textContent,
+          status: response.status,
+          ok: response.statusText
+        }
+        validatedLinks.push(linkStatus)
+        //console.log(validatedLinks)
+        return validatedLinks
+      })
+      .catch(error => console.log('FAIL'));
+  })
+}
+promiseValidateLink.then( response => {
+  const links = linksText()
+   const testingValidation = validateLink(links)
+   console.log(testingValidation)
+   return testingValidation
+  }
+)
+testingValidation = validateLink(['https://www.youtube.com/', 'https://www.instagram.com/', 'https://www.facebook.com/']);
+//console.log(testingValidation)
+*/
+
+
+module.exports = {
+    validatePath: validatePath
+}
