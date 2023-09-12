@@ -77,7 +77,7 @@ const extractLinks = (fileArray) => new Promise((resolve, reject) => {
   const link = /\[([^\]]+)\]\((http[s]?:\/\/[^)]+)\)/g;
   const tag = /^\[([\w\s\d]+)\]/;
   const url = /\(((?:\/|https?:\/\/)?[\w\d./?=#]+)\)$/;
-  const linksUrls = [];
+  const arrayLinks = [];
   fileArray.forEach((file, i) => {
     readFile(file, (data) => {
       const links = data.match(link);
@@ -87,7 +87,7 @@ const extractLinks = (fileArray) => new Promise((resolve, reject) => {
         return;
       }
 
-      const linkProperties = links.map((prop) => {
+      const linksProperties = links.map((prop) => {
         const text = prop.match(tag);
         const href = prop.match(url);
         return {
@@ -97,9 +97,9 @@ const extractLinks = (fileArray) => new Promise((resolve, reject) => {
         };
       });
 
-      linksUrls.push(linkProperties);
+      arrayLinks.push(linksProperties);
       if (i === fileArray.length - 1) {
-        resolve(linksUrls);
+        resolve(arrayLinks.flat());
       }
     });
   });
