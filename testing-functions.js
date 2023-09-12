@@ -93,7 +93,23 @@ const htmlContent = marked(fileContent);
 
 //---------Para encontrar etiquetas <a>------------//
 const $ = cheerio.load(htmlContent);
-const aLabels = $('a').map((index, element) => console.log($(element).text())).get();//---text--//
-const hrefLabels = $('a').map((index, element) => console.log($(element).attr('href'))).get();//---href--//
-console.log('aaaaaaa', $('a[href]'));
+//const aLabels = $('a').map((index, element) => console.log($(element).text())).get();//---text--//
+//const hrefLabels = $('a').map((index, element) => console.log($(element).attr('href'))).get();//---href--//
+//console.log('aaaaaaa', $('a[href]'));
 
+  //--------FUNCIONA--------------// Metodo push va agregando al array
+
+  const aLabels = [];
+
+  $('a').each(function() {
+    const text = aLabels.push($(this).text());
+  });
+
+//--------FUNCIONA--------------//
+ $('a').each(function() {
+  const text = ($(this).text());
+  console.log(text)
+  const link = ($(this).attr('href'));
+  console.log(link)
+console.log( text)
+});
