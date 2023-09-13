@@ -43,6 +43,51 @@ const statusHref = (arrayLinks) => {
   return stats;
 };
 
+// statusHref([
+//   {
+//     href: 'https://medium.com/',
+//     text: 'Medium',
+//     file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\folderA.1.1\\firstfile.md',
+//     status: 403,
+//     OK: 'fail',
+//   },
+//   {
+//     href: 'https://medium.com/',
+//     text: 'Medium',
+//     file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\folderA.1.1\\firstfile.md',
+//     status: 403,
+//     OK: 'fail',
+//   },
+// {
+//   href: 'http://otherpagerandom.net/',
+//   text: 'Other page random',
+//   file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\folderA.1.1\\firstfile.md',
+//   status: 500,
+//   OK: 'fail',
+// },
+  // {
+  //   href: 'https://kinsta.com/es/',
+  //   text: 'Kinsta',
+  //   file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\secondfile.md',
+  //   status: 200,
+  //   OK: 'ok',
+  // },
+  // {
+  //   href: 'https://docs.npmjs.com/',
+  //   text: 'Docs NPM',
+  //   file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\secondfile.md',
+  //   status: 200,
+  //   OK: 'ok',
+  // },
+  // {
+  //   href: 'https://open.spotify.com/exit',
+  //   text: 'Spotify',
+  //   file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\secondfile.md',
+  //   status: 404,
+  //   OK: 'fail',
+  // },
+//]);
+
 
 // statusHttp([
 //   {

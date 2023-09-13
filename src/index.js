@@ -8,18 +8,21 @@ const mdLinks = (path, options) => new Promise((resolve, reject) => {
     const isAbsolutePath = config.absolutePathConverter(path);
     const filePathToRead = config.identifyFile(isAbsolutePath);
     const isFileExtension = config.fileValidation(filePathToRead);
-    config.extractLinks(isFileExtension)
+    config
+      .extractLinks(isFileExtension)
       .then((arrayLinks) => {
         if (options.validate === true) {
-          validation.statusHttp(arrayLinks)
+          validation
+            .statusHttp(arrayLinks)
             .then((setPromises) => {
               resolve(setPromises);
             })
             .catch((err) => {
               reject('There was an error:', err);
             });
+        } else {
+          resolve(arrayLinks);
         }
-        //resolve(arrayLinks); Al comentar esto la promesa se termina de cumplir dentro de la condicional
       })
       .catch((err) => reject(err));
   } else {
@@ -27,11 +30,10 @@ const mdLinks = (path, options) => new Promise((resolve, reject) => {
   }
 });
 
-//mdLinks('src/sample/draft.txt')
-// mdLinks('src/sample/folderB')
-//mdLinks('src/sample/draft.md')
-mdLinks('src/sample/folderA', { validate: true })
-//mdLinks('src/sample/empty.md')
+// mdLinks('src/sample/folderB', { validate: false })
+//mdLinks('src/sample/draft.md', {validate: true})
+ mdLinks('src/sample/folderA', { validate: false })
+  //mdLinks('src/sample/empty.md')
   .then((result) => {
     console.log('Great!, all conditions were fulfilled');
     console.log(result);
