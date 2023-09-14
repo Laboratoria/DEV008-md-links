@@ -94,7 +94,7 @@ kingk@DESKTOP-H8RBQC8 MINGW64 ~/Laboratoria/MD-links  cyq-mdlinks .src\\sample\\
 { Total: 1, Unique: 1, Broken: 0 }
 ```
 
-> Ruta, Validación y estados
+> Ruta, validación y estados
 
 `cyq-mdlinks ruta/a/analizar --validate --status`
 
