@@ -1,9 +1,5 @@
 const fetch = require('node-fetch');
 
-//conteo total de links
-//conteo total de links únicos
-//conteo total de links rotos
-//ver en que linea se encuentra el link
 //--------------------------------Respuesta HTTP-------------------------------//
 const statusHttp = (arrayLinks) => {
   const setPromises = arrayLinks.map((linkProp) => 
@@ -43,65 +39,6 @@ const statusHref = (arrayLinks) => {
     console.log(stats)
   return stats;
 };
-// const statusHref = (arrayLinks) => {
-//   const linksUnique = [...new Set(arrayLinks.map((link) => link.href))];
-//   const stats = {Total: 0, Unique: 0};
-//   for (let linkProp of arrayLinks) {
-//     if (linkProp.OK === 'fail') {
-//         stats.Total = arrayLinks.length
-//         stats.Unique = linksUnique.length
-//         stats.Broken = arrayLinks.filter((link) => link.OK === 'fail').length
-//     }}
-//     stats.Total = arrayLinks.length;
-//     stats.Unique = linksUnique.length;
-//     console.log(stats)
-//   return stats;
-// };
-
-// statusHref([
-//   {
-//     href: 'https://medium.com/',
-//     text: 'Medium',
-//     file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\folderA.1.1\\firstfile.md',
-//     status: 403,
-//     OK: 'fail',
-//   },
-//   {
-//     href: 'https://medium.com/',
-//     text: 'Medium',
-//     file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\folderA.1.1\\firstfile.md',
-//     status: 403,
-//     OK: 'fail',
-//   },
-// {
-//   href: 'http://otherpagerandom.net/',
-//   text: 'Other page random',
-//   file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\folderA.1.1\\firstfile.md',
-//   status: 500,
-//   OK: 'fail',
-// },
-//   {
-//     href: 'https://kinsta.com/es/',
-//     text: 'Kinsta',
-//     file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\secondfile.md',
-//     status: 200,
-//     OK: 'ok',
-//   },
-//   {
-//     href: 'https://open.spotify.com/exit',
-//     text: 'Spotify',
-//     file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\secondfile.md',
-//     status: 404,
-//     OK: 'fail',
-//   },
-//   {
-//     href: 'https://docs.npmjs.com/',
-//     text: 'Docs NPM',
-//     file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\secondfile.md',
-//     status: 200,
-//     OK: 'ok',
-//   },
-// ]);
 
 module.exports = {
   statusHttp,

@@ -32,8 +32,102 @@ El proyecto MD-links es una herramienta de línea de comandos desarrollada en Ja
 
 Es necesario tener una versión reciente de `node.js` instalada.
 En tu terminal instalas la librería por npm con el siguiente comando:
-	`npm install CYQ-mdlinks`
+
+`npm install git@github.com:CarolynYQ/MD-links.git`
+
+Si deseas instalarlo como una dependencia:
+
+`npm install --save --dev git@github.com:CarolynYQ/MD-links.git`
 
 ## 4. Instrucciones de uso
+
+### Ejemplos
+---------------
+> Solo ruta
+
+`cyq-mdlinks ruta/a/analizar`
+
+```javascript
+kingk@DESKTOP-H8RBQC8 MINGW64 ~/Laboratoria/MD-links  cyq-mdlinks 
+
+[ 
+	{
+    href: 'https://www.universia.net/es/home.html',
+    text: 'Universia',
+    file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\draft.md',
+	},
+]
+```
+
+> Ruta y validación
+
+`cyq-mdlinks ruta/a/analizar --validate`
+
+```javascript
+kingk@DESKTOP-H8RBQC8 MINGW64 ~/Laboratoria/MD-links  cyq-mdlinks --validate 
+
+[ 
+	{
+    href: 'https://www.universia.net/es/home.html',
+    text: 'Universia',
+    file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\draft.md',
+    status: 200,
+    OK: 'ok'
+	},
+]
+```
+
+> Ruta y estados
+
+`cyq-mdlinks ruta/a/analizar --status`
+
+```javascript
+kingk@DESKTOP-H8RBQC8 MINGW64 ~/Laboratoria/MD-links  cyq-mdlinks --status
+
+[ 
+	{
+    href: 'https://www.universia.net/es/home.html',
+    text: 'Universia',
+    file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\draft.md',
+	},
+]
+{ Total: 1, Unique: 1, Broken: 0 }
+```
+
+> Ruta, Validación y estados
+
+`cyq-mdlinks ruta/a/analizar --validate --status`
+
+```javascript
+kingk@DESKTOP-H8RBQC8 MINGW64 ~/Laboratoria/MD-links  cyq-mdlinks --validate --status
+
+[ 
+	{
+    href: 'http://asinglepage.net/',
+    text: 'asinglepage',
+    file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\draft.md',
+    status: null,
+    OK: 'fail'
+	},
+]
+
+{ Total: 1, Unique: 1, Broken: 1 }
+```
+
+
+### Resumen
+--------
+
+|  path   |    --stats   |   --validate   |  Resultado |
+| ------- | -------             | ------       | -----      | 
+| ✔  |   ✖  |✔ | Solo ruta ---> href, text y file |
+| ✔  | ✖ | ✔ | Ruta & validate ---->  href, text, file, status y OK|
+| ✔  | ✔ | ✖ | Ruta & stats ---->  href, text, file y # de links totales, únicos y rotos|
+| ✔  | ✔ | ✔ | Ruta & validate & stats ---->  href, text, file, status, OK y # de links totales, únicos y rotos|
 ## 5. Issues
+
+Las funcionalidades para implementar a futuro son los siguientes [issues](https://github.com/CarolynYQ/MD-links/issues)
+
 ## 6. Créditos
+
+Este trabajo fue creado con 💛 gracias a la colaboración de Carolyn Yaker

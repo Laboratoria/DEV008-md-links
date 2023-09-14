@@ -1,5 +1,5 @@
 {
-  "name": "CYQ-mdlinks",
+  "name": "cyq-mdlinks",
   "version": "0.1.0",
   "main": "index.js",
   "type":"commonjs",
@@ -14,7 +14,7 @@
     "lint-fix": "eslint . --fix"
   },
   "bin": {
-    "CYQ-mdlinks": "./src/cli.js"
+    "cyq-mdlinks": "src/cli.js"
   },
   "bugs": {
     "url": "https://github.com/CarolynYQ/MD-links/issues",
