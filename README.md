@@ -103,7 +103,7 @@ kingk@DESKTOP-H8RBQC8 MINGW64 ~/Laboratoria/MD-links  cyq-mdlinks .src\\sample\\
 
 [
 	{
-		href: 'http://asinglepage.net/',
+		href: 'http://aSinglepage.net/',
 		text: 'asinglepage',
 		file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\draft.md',
 		status: null,
