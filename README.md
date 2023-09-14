@@ -48,13 +48,13 @@ Si deseas instalarlo como una dependencia:
 `cyq-mdlinks ruta/a/analizar`
 
 ```javascript
-kingk@DESKTOP-H8RBQC8 MINGW64 ~/Laboratoria/MD-links  cyq-mdlinks 
+kingk@DESKTOP-H8RBQC8 MINGW64 ~/Laboratoria/MD-links  cyq-mdlinks .src\\sample\\draft.md
 
 [ 
 	{
-    href: 'https://www.universia.net/es/home.html',
-    text: 'Universia',
-    file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\draft.md',
+		href: 'https://www.universia.net/es/home.html',
+		text: 'Universia',
+		file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\draft.md',
 	},
 ]
 ```
@@ -64,15 +64,15 @@ kingk@DESKTOP-H8RBQC8 MINGW64 ~/Laboratoria/MD-links  cyq-mdlinks
 `cyq-mdlinks ruta/a/analizar --validate`
 
 ```javascript
-kingk@DESKTOP-H8RBQC8 MINGW64 ~/Laboratoria/MD-links  cyq-mdlinks --validate 
+kingk@DESKTOP-H8RBQC8 MINGW64 ~/Laboratoria/MD-links  cyq-mdlinks .src\\sample\\draft.md --validate 
 
 [ 
 	{
-    href: 'https://www.universia.net/es/home.html',
-    text: 'Universia',
-    file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\draft.md',
-    status: 200,
-    OK: 'ok'
+		href: 'https://www.universia.net/es/home.html',
+		text: 'Universia',
+		file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\draft.md',
+		status: 200,
+		OK: 'ok'
 	},
 ]
 ```
@@ -82,13 +82,13 @@ kingk@DESKTOP-H8RBQC8 MINGW64 ~/Laboratoria/MD-links  cyq-mdlinks --validate
 `cyq-mdlinks ruta/a/analizar --status`
 
 ```javascript
-kingk@DESKTOP-H8RBQC8 MINGW64 ~/Laboratoria/MD-links  cyq-mdlinks --status
+kingk@DESKTOP-H8RBQC8 MINGW64 ~/Laboratoria/MD-links  cyq-mdlinks .src\\sample\\draft.md --status
 
 [ 
 	{
-    href: 'https://www.universia.net/es/home.html',
-    text: 'Universia',
-    file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\draft.md',
+		href: 'https://www.universia.net/es/home.html',
+		text: 'Universia',
+		file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\draft.md',
 	},
 ]
 { Total: 1, Unique: 1, Broken: 0 }
@@ -99,15 +99,15 @@ kingk@DESKTOP-H8RBQC8 MINGW64 ~/Laboratoria/MD-links  cyq-mdlinks --status
 `cyq-mdlinks ruta/a/analizar --validate --status`
 
 ```javascript
-kingk@DESKTOP-H8RBQC8 MINGW64 ~/Laboratoria/MD-links  cyq-mdlinks --validate --status
+kingk@DESKTOP-H8RBQC8 MINGW64 ~/Laboratoria/MD-links  cyq-mdlinks .src\\sample\\draft.md --validate --status
 
-[ 
+[
 	{
-    href: 'http://asinglepage.net/',
-    text: 'asinglepage',
-    file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\draft.md',
-    status: null,
-    OK: 'fail'
+		href: 'http://asinglepage.net/',
+		text: 'asinglepage',
+		file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\draft.md',
+		status: null,
+		OK: 'fail'
 	},
 ]
 
