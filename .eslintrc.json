@@ -11,7 +11,7 @@
     "parserOptions": {
         "ecmaVersion": "latest"
     },
-    "ignorePatterns": ["config.spec.js", "md-links.spec.js", "validation.spec.js","validation.js"],
+    "ignorePatterns": ["config.spec.js", "md-links.spec.js", "validation.spec.js","validation.js", "cli.js"],
     "rules": {
         "max-len": ["error", {"code": 200}],
         "no-console": "off",

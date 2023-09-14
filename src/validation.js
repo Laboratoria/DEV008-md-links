@@ -31,17 +31,32 @@ const statusHttp = (arrayLinks) => {
 //--------------------Conteo de links totales, únicos y rotos------------------//
 const statusHref = (arrayLinks) => {
   const linksUnique = [...new Set(arrayLinks.map((link) => link.href))];
-  const stats = {Total: 0, Unique: 0}
-  for (let linkProp of arrayLinks) {
-    if (linkProp.OK === 'fail') {
+  const stats = {Total: 0, Unique: 0};
+  const linkFail = (linkProp) => linkProp.OK === 'fail'
+    if (arrayLinks.some(linkFail)) {
         stats.Total = arrayLinks.length
         stats.Unique = linksUnique.length
         stats.Broken = arrayLinks.filter((link) => link.OK === 'fail').length
-    }}
+    }
     stats.Total = arrayLinks.length;
     stats.Unique = linksUnique.length;
+    console.log(stats)
   return stats;
 };
+// const statusHref = (arrayLinks) => {
+//   const linksUnique = [...new Set(arrayLinks.map((link) => link.href))];
+//   const stats = {Total: 0, Unique: 0};
+//   for (let linkProp of arrayLinks) {
+//     if (linkProp.OK === 'fail') {
+//         stats.Total = arrayLinks.length
+//         stats.Unique = linksUnique.length
+//         stats.Broken = arrayLinks.filter((link) => link.OK === 'fail').length
+//     }}
+//     stats.Total = arrayLinks.length;
+//     stats.Unique = linksUnique.length;
+//     console.log(stats)
+//   return stats;
+// };
 
 // statusHref([
 //   {
@@ -65,72 +80,28 @@ const statusHref = (arrayLinks) => {
 //   status: 500,
 //   OK: 'fail',
 // },
-  // {
-  //   href: 'https://kinsta.com/es/',
-  //   text: 'Kinsta',
-  //   file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\secondfile.md',
-  //   status: 200,
-  //   OK: 'ok',
-  // },
-  // {
-  //   href: 'https://docs.npmjs.com/',
-  //   text: 'Docs NPM',
-  //   file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\secondfile.md',
-  //   status: 200,
-  //   OK: 'ok',
-  // },
-  // {
-  //   href: 'https://open.spotify.com/exit',
-  //   text: 'Spotify',
-  //   file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\secondfile.md',
-  //   status: 404,
-  //   OK: 'fail',
-  // },
-//]);
-
-
-// statusHttp([
-//   {
-//     href: 'https://hackernoon.com/',
-//     text: 'Medium',
-//     file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\folderA.1.1\\firstfile.md',
-//   },
-//   {
-//     href: 'http://otherpagerandom.net/',
-//     text: 'Other page random',
-//     file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\folderA.1.1\\firstfile.md',
-//   },
 //   {
 //     href: 'https://kinsta.com/es/',
 //     text: 'Kinsta',
 //     file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\secondfile.md',
-//   },
-//   {
-//     href: 'https://docs.npmjs.com/',
-//     text: 'Docs NPM',
-//     file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\secondfile.md',
+//     status: 200,
+//     OK: 'ok',
 //   },
 //   {
 //     href: 'https://open.spotify.com/exit',
 //     text: 'Spotify',
 //     file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\secondfile.md',
+//     status: 404,
+//     OK: 'fail',
 //   },
-// ])
-//   .then((response) => {
-//     console.log(response);
-    // response.forEach((link) => {
-    //   if (link.status !== null) {
-    //     console.log(response);
-    //   } else {
-    //     console.log
-    //     return response.filter((link) => link.status === null )
-    //   }
-    // });
-  // })
-  // .catch((err) => {
-  //   console.log('Hubo un error, el error cayó aquí');
-  //   console.log(err);
-  // });
+//   {
+//     href: 'https://docs.npmjs.com/',
+//     text: 'Docs NPM',
+//     file: 'C:\\Users\\kingk\\Laboratoria\\MD-links\\src\\sample\\folderA\\folderA.1\\secondfile.md',
+//     status: 200,
+//     OK: 'ok',
+//   },
+// ]);
 
 module.exports = {
   statusHttp,
