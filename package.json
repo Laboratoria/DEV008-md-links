@@ -1,12 +1,41 @@
 {
-  "name": "md-links",
+  "name": "cyq-mdlinks",
   "version": "0.1.0",
+  "main": "index.js",
+  "type":"commonjs",
+  "description": "This is a library for parsing and validating links in your markdow files",
   "engines": {
     "node": ">=16.x"
+  },
+  "scripts": {
+    "test": "jest --coverage",
+    "start": "node ./src/index.js",
+    "lint": "npx eslint  . --ext .js",
+    "lint-fix": "eslint . --fix"
+  },
+  "bin": {
+    "cyq-mdlinks": "src/cli.js"
+  },
+  "bugs": {
+    "url": "https://github.com/CarolynYQ/MD-links/issues",
+    "homepage": "https://github.com/CarolynYQ/MD-links#readme"
   },
   "bootcamp": {
     "createdAt": "2023-06-28T16:05:09.952Z",
     "version": "6.3.0",
     "commit": "a942adeb868f1fe54b86e34cc4fc4ddb0601700d"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^29.6.4",
+    "node-fetch": "^2.7.0"
+  },
+  "prettier": {
+    "singleQuote": true
+  },
+  "devDependencies": {
+    "eslint": "^8.48.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.28.1"
   }
 }

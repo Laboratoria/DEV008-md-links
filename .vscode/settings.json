@@ -1,0 +1,7 @@
+{
+    "cSpell.language": "en,es",
+    "javascript.preferences.quoteStyle": "single",
+    "editor.autoClosingQuotes": "always",
+    "prettier.jsxSingleQuote": true,
+    "prettier.singleQuote": true,
+}
